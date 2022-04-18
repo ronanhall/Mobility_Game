@@ -51,6 +51,10 @@ public class pause_Menu : MonoBehaviour
         player.GetComponent<player_Look>().enabled = true;
         player.GetComponent<player_Movement>().enabled = true;
         gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursur invisible
     }
 
     public void Pause()
@@ -61,6 +65,10 @@ public class pause_Menu : MonoBehaviour
         player.GetComponent<player_Look>().enabled = false;
         player.GetComponent<player_Movement>().enabled = false;
         gun.GetComponent<bounce_Pad_Gun>().enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        //locking cursur to the middle of the screen
+        Cursor.visible = true;
+        //making the cursur invisible
     }
 
     public void Quit()
