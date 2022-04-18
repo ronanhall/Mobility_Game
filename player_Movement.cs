@@ -60,6 +60,10 @@ public class player_Movement : MonoBehaviour
     public float slideSpeed;
     //the speed of the player whilst sliding
 
+    [Header("Effects")]
+    public GameObject speedLines;
+    public bool speedLinesActive;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
@@ -96,8 +100,6 @@ public class player_Movement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         //shooting a ray down from the player postion at groundchecks position
-
-        
 
         MyInput();
         ControlDrag();
@@ -136,12 +138,12 @@ public class player_Movement : MonoBehaviour
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+          //  Scene scene = SceneManager.GetActiveScene();
+           // SceneManager.LoadScene(scene.name);
             //restarting the scene when the player presses r
-        }
+        //}
     }
 
     void Jump()
@@ -183,16 +185,19 @@ public class player_Movement : MonoBehaviour
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
             //adding a force to the rigidbody in the movement direction whilst on the ground 
+            StopSpeedLines();
         }
         else if (isGrounded && OnSlope())
         {
-            rb.AddForce(slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration); 
+            rb.AddForce(slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
             //adding a force to the rigidbody based on the angle of the slope
+            StopSpeedLines();
         }
         else if (!isGrounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
             //whilst in the air, changing the drag to that of the air drag
+            StartSpeedLines();
         }
     }
 
@@ -235,5 +240,20 @@ public class player_Movement : MonoBehaviour
             //when the player collides with a nobject with the tag "Speed Hazard", their speed will decrease as long as they're on the object
         }
     }
-}
 
+    public void StartSpeedLines()
+    {
+        speedLines.SetActive(true);
+        //setting the particle effect of the speed lines to active
+        speedLinesActive = true;
+        //seeting this bool to true
+    }
+
+    public void StopSpeedLines()
+    {
+        speedLines.SetActive(false);
+        //deactivating the speed lines particle effect
+        speedLinesActive = false;
+        //setting this bool to false
+    }
+}
