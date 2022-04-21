@@ -9,8 +9,10 @@ public class enemy_Bullet : MonoBehaviour
     //the target that the bullet will fly towards
     public float bulletSpeed; 
     //the speed/force that will be applied to the bullet when it fires
-    Rigidbody bulletRB; 
+    Rigidbody bulletRB;
     //a reference to the Rigidbody that is on the bullet
+
+    player_Movement pm;
 
     // Start is called before the first frame update
     void Start()
@@ -23,24 +25,29 @@ public class enemy_Bullet : MonoBehaviour
         bulletRB.velocity = new Vector3(moveDirection.x, moveDirection.y, moveDirection.z);
         //the code above calculates the players position and then fires the bullet, with it moving towards
         //that calculated direction
+
+        //pm = GetComponent<player_Movement>();
     }
 
 
-    /*void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collision.tag == "Player")
-        the code above is making sure that the trigger is only called when an object
-        of the tag "Player" collides with it 
+        if (collision.gameObject.tag == "Player")
+        //the code above is making sure that the trigger is only called when an object
+        //of the tag "Player" collides with it 
         {
+            //pm.moveSpeed = 3f;
+            Destroy(gameObject);
+            Debug.Log("collides with player");
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
-            Destroy(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //else
+        //{
+          //  Destroy(gameObject);
+            //Debug.Log("collides with " + gameObject.tag);
+        //}
         //the code above destroys the bullet whenever it collides with an object, with it reloading the scene
-        //when it collides with a gameobject with the tag of "Player"*/
-    //}
+        //when it collides with a gameobject with the tag of "Player"
+    }
 }
