@@ -17,6 +17,8 @@ public class level_Transition_Win : MonoBehaviour
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
 
+            FindObjectOfType<audio_Manager>().Play("Finish Level");
+
             //timer.instance.GetCurrentTime();
         }
     }
