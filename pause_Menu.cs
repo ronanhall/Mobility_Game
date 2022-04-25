@@ -66,14 +66,20 @@ public class pause_Menu : MonoBehaviour
         player.GetComponent<player_Movement>().enabled = false;
         gun.GetComponent<bounce_Pad_Gun>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
-        //locking cursur to the middle of the screen
+        //unlocking cursur from the middle of the screen
         Cursor.visible = true;
-        //making the cursur invisible
+        //making the cursur visible
     }
 
     public void Quit()
     {
         Application.Quit();
         Debug.Log("quitting");
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
     }
 }
