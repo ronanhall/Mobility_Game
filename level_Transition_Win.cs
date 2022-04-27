@@ -15,11 +15,14 @@ public class level_Transition_Win : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            SceneManager.LoadScene(2);
+            //chage this when needed
 
             FindObjectOfType<audio_Manager>().Play("Finish Level");
+            //
 
-            //timer.instance.GetCurrentTime();
+            timer.instance.SaveTime();
+            //this needs sorting out
         }
     }
 
