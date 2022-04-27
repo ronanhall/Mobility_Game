@@ -21,6 +21,18 @@ public class main_Menu : MonoBehaviour
         Debug.Log("quitting");
     }
 
+    public void LoadLevel1()
+    {
+        SceneManager.LoadScene(1);
+        //loading level 1
+    }
+
+    public void LoadLevel2()
+    {
+        SceneManager.LoadScene(2);
+        //lodaing level 2
+    }
+
 
 
 }
