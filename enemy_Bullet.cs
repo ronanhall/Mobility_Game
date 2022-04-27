@@ -42,11 +42,11 @@ public class enemy_Bullet : MonoBehaviour
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
         }
-        //else
-        //{
-          //  Destroy(gameObject);
-            //Debug.Log("collides with " + gameObject.tag);
-        //}
+        else if (collision.gameObject.tag == "Wall")
+        {
+            Destroy(gameObject);
+            Debug.Log("collides with " + gameObject.tag);
+        }
         //the code above destroys the bullet whenever it collides with an object, with it reloading the scene
         //when it collides with a gameobject with the tag of "Player"
     }
