@@ -37,8 +37,6 @@ public class game_Manager : MonoBehaviour
 
     public void Update()
     {
-        //GetCurrentLevel();
-        //Debug.Log
         Scene scene = SceneManager.GetActiveScene();
         //getting the active scene
         currentLevel = scene.buildIndex;
