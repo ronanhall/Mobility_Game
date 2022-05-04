@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class main_Menu : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class main_Menu : MonoBehaviour
         //lodaing level 2
     }
 
-
+    /*private void Update()
+    {
+        bestTime1.text = timer.instance.bestTime1.ToString();
+    }*/
 
 }
