@@ -10,16 +10,21 @@ public class leaderborad_Controller : MonoBehaviour
 {
     public TMP_InputField memberID;
     //input fields for the players name and score
-
-
+    
     public TextMeshProUGUI playerScore;
-
+    //text that will display the players score
+    
     int leaderboardID = 2878;
     //the ID of the leaderboard online
-
+    
     int maxScores = 5;
-
+    //the maximum amount of scores the leaderboard will display
+    
     public TextMeshProUGUI[] Entries;
+    //the text objects that will become the leaderboard
+    
+    public timer timer;
+    //private float scoreAmount;
 
     private void Start()
     {
@@ -29,37 +34,31 @@ public class leaderborad_Controller : MonoBehaviour
         {
             if (response.success)
             {
-                //PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
-                //getting the players name from their PlayerPref
-                Debug.Log("Success");
-                
+                Debug.Log("Success");   
             }
             else
             {
                 Debug.Log("Failed");
-                
             }
         });
 
-        playerScore.text = PlayerPrefs.GetFloat("time_1", 0).ToString();
-        //turning the playerScore text in the input field to the saved score for level 1 in PlayerPrefs
+        playerScore.text = (Mathf.FloorToInt(timer.scoreAmount)).ToString();
+        //turning the playerScore text into the scoreAmount the player just attained
     }
 
     public void SubmitScore()
     {
         LootLockerSDKManager.SubmitScore(memberID.text, int.Parse(playerScore.text), leaderboardID, (response) =>
         {
+            //the code above is submitting the players name and their score amount to the specific leaderboardID
             if (response.success)
             {
-                //PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
-                //getting the players name from their PlayerPref
                 Debug.Log("Success");
 
             }
             else
             {
                 Debug.Log("Failed");
-
             }
         });
     }
@@ -74,6 +73,7 @@ public class leaderborad_Controller : MonoBehaviour
                 for (int i = 0; i < scores.Length; i++)
                 {
                     Entries[i].text = (scores[i].rank + ". " + scores[i].member_id + ":   " + scores[i].score);
+                    //displaying the leaderboard text as rank, player name and their score
                 }
 
                 if (scores.Length < maxScores)
