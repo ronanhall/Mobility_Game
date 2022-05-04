@@ -28,7 +28,7 @@ public class boune_Pad_Gun : MonoBehaviour
         {
             Debug.Log(hit.transform.tag); //displaying objects names that are hit
 
-            Instantiate(bouncePad, hit.point, Quaternion.identity);
+            Instantiate(bouncePad, hit.point, Quaternion.LookRotation(hit.normal));
         }
     }
 }
