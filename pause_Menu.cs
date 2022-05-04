@@ -34,20 +34,15 @@ public class pause_Menu : MonoBehaviour
 
             }
         }
-
-        //restart button code
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-        }
     }
 
     public void Resume()
     {
-        pauseMenuUi.SetActive(false); //disables the gameobject
+        pauseMenuUi.SetActive(false); 
+        //disables the gameobject
         gameIsPaused = false;
-        Time.timeScale = 1f; //setting the time back to passing at normal speed
+        Time.timeScale = 1f; 
+        //setting the time back to passing at normal speed
         player.GetComponent<player_Look>().enabled = true;
         player.GetComponent<player_Movement>().enabled = true;
         gun.GetComponent<bounce_Pad_Gun>().enabled = true;
@@ -59,8 +54,10 @@ public class pause_Menu : MonoBehaviour
 
     public void Pause()
     {
-        pauseMenuUi.SetActive(true); //enables the gameobject
-        Time.timeScale = 0f; //this is the speed at which time is passing, and because it is set to 0, time is frozen
+        pauseMenuUi.SetActive(true); 
+        //enables the gameobject
+        Time.timeScale = 0f; 
+        //this is the speed at which time is passing, and because it is set to 0, time is frozen
         gameIsPaused = true;
         player.GetComponent<player_Look>().enabled = false;
         player.GetComponent<player_Movement>().enabled = false;
@@ -81,5 +78,21 @@ public class pause_Menu : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+    }
+
+    public void Retry()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        gameIsPaused = false;
+        Time.timeScale = 1f;
+        //setting the time back to passing at normal speed
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursur invisible
     }
 }
