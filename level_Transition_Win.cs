@@ -28,9 +28,12 @@ public class level_Transition_Win : MonoBehaviour
         {
             FinishLevel();
 
-            FindObjectOfType<audio_Manager>().Play("Finish Level");
+            //FindObjectOfType<audio_Manager>().Play("Finish Level");
             //
-
+            FindObjectOfType<audio_Manager>().Play("Menu Music");
+            //finding the auido manager, and playing the menu music
+            FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
+            //finding the audio manager, and stopping the level music
             //timer.instance.SaveTime();
             //this needs sorting out
         }
@@ -74,6 +77,10 @@ public class level_Transition_Win : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursor visible
+        FindObjectOfType<audio_Manager>().Play("Level Music");
+        //finding the audio manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
     }
 
     public void MainMenu()
