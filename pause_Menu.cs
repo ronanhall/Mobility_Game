@@ -78,6 +78,10 @@ public class pause_Menu : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+        FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
+        //finding the audio manager, and stopping the level music
+        FindObjectOfType<audio_Manager>().Play("Menu Music");
+        //finding the auido manager, and playing the menu music
     }
 
     public void Retry()
