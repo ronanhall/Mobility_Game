@@ -14,6 +14,10 @@ public class main_Menu : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
+        FindObjectOfType<audio_Manager>().Play("Level Music");
+        //finding the auido manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
     }
 
     public void QuitGame()
