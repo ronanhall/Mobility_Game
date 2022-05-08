@@ -8,8 +8,7 @@ public class audio_Manager : MonoBehaviour
     //an array of the sound script
 
     public static audio_Manager instance;
-
-    public float level;
+    //making the object an instance
 
     // Start is called before the first frame update
     void Awake()
@@ -62,5 +61,25 @@ public class audio_Manager : MonoBehaviour
         //if the sound isn't there, the game isn't trying to play it
         s.source.Stop();
         //stopping the sound
+    }
+
+    public void TurnDown()
+    {
+        sound s = Array.Find(sounds, sound => sound.name == name);
+        //
+        if (s == null)
+            return;
+        //if the sound isn't there, the game isn't trying to play it
+        s.volume = 0;
+    }
+
+    public void TurnUp()
+    {
+        sound s = Array.Find(sounds, sound => sound.name == name);
+        //
+        if (s == null)
+            return;
+        //if the sound isn't there, the game isn't trying to play it
+        s.source.volume = s.volume;
     }
 }
