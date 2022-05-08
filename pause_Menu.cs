@@ -50,6 +50,7 @@ public class pause_Menu : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
+        FindObjectOfType<audio_Manager>().TurnUp();
     }
 
     public void Pause()
@@ -66,6 +67,7 @@ public class pause_Menu : MonoBehaviour
         //unlocking cursur from the middle of the screen
         Cursor.visible = true;
         //making the cursur visible
+        FindObjectOfType<audio_Manager>().TurnDown();
     }
 
     public void Quit()
