@@ -7,35 +7,30 @@ using UnityEngine.UI;
 
 public class level_Transition_Win : MonoBehaviour
 {
-    //timer time;
-    //[SerializeField] GameObject timer;
-
     public static bool levelIsFinished = false;
     //bool tracking if the level is finished
+    
     public GameObject leaderboardUI;
     //reference to the leaderboard UI
+    
     public GameObject onScreenUI;
     //reference to the onscreen UI
+    
     public GameObject player;
     //reference to the player
+    
     public GameObject gun;
     //reference to the bounce pad gun
-    
-
+   
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             FinishLevel();
-
-            //FindObjectOfType<audio_Manager>().Play("Finish Level");
-            //
             FindObjectOfType<audio_Manager>().Play("Menu Music");
             //finding the auido manager, and playing the menu music
             FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
             //finding the audio manager, and stopping the level music
-            //timer.instance.SaveTime();
-            //this needs sorting out
         }
     }
 
@@ -56,6 +51,7 @@ public class level_Transition_Win : MonoBehaviour
         Cursor.visible = true;
         //making the cursur visible
         levelIsFinished = true;
+        //setting the bool to true
     }
 
     public void NextLevel()
