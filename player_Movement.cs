@@ -111,6 +111,13 @@ public class player_Movement : MonoBehaviour
 
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal); 
         //projecting the players movement based on the angle of the ground object
+        
+         if (Input.GetKeyDown(KeyCode.R))
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+            //reloading the current scene
+        }
     }
 
     void MyInput()
