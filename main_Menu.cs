@@ -30,6 +30,10 @@ public class main_Menu : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         //loading level 1
+        FindObjectOfType<audio_Manager>().Play("Level Music");
+        //finding the auido manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
     }
 
     public void LoadLevel2()
