@@ -11,7 +11,7 @@ public class wall_Running : MonoBehaviour
     [SerializeField] float wallDistance = 0.5f; 
     //the minimum distance that detects a wall
     [SerializeField] float minJumpHeight = 1.5f; 
-    //the minimum jump height the player needs to rech to start wall running
+    //the minimum jump height the player needs to reach to start wall running
     [SerializeField] private float wallRunGravity; 
     //the gravity whilst on the wall
     [SerializeField] private float wallJumpForce;
