@@ -42,7 +42,7 @@ public class player_Movement : MonoBehaviour
     //drag on the player whilst they're in the air
 
     [Header("Ground Detection")]
-    bool isGrounded; 
+    public bool isGrounded; 
     //checking to see if the player is grounded
     float groundDistance = 0.4f;
     [SerializeField] LayerMask groundMask;
@@ -80,11 +80,11 @@ public class player_Movement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.5f)) 
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.5f)) 
         //casting a raycast downwards
         {
             if (slopeHit.normal != Vector3.up) 
-            //checking to see if the hit normal doesnt equal vector3.up
+            //checking to see if the hit normal doesn't equal vector3.up
             {
                 return true;
             }
@@ -99,7 +99,7 @@ public class player_Movement : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        //shooting a ray down from the player postion at groundchecks position
+        //shooting a ray down from the player postion at groundChecks position
 
         MyInput();
         ControlDrag();
@@ -109,10 +109,10 @@ public class player_Movement : MonoBehaviour
             Jump();
         }
 
-        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal); 
+        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized; 
         //projecting the players movement based on the angle of the ground object
-        
-         if (Input.GetKeyDown(KeyCode.R))
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
@@ -134,7 +134,7 @@ public class player_Movement : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z); 
             //changing the players scale on the y
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-            //adding force downwards to the player so that they arent floating when the scale gets changed
+            //adding force downwards to the player so that they aren't floating when the scale gets changed
             rb.AddForce(orientation.forward * slideSpeed, ForceMode.VelocityChange);
             //adding the slide force in the direction the player is facing, making them slide
         }
@@ -144,23 +144,16 @@ public class player_Movement : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); 
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
-
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-          //  Scene scene = SceneManager.GetActiveScene();
-           // SceneManager.LoadScene(scene.name);
-            //restarting the scene when the player presses r
-        //}
     }
 
-    void Jump()
+    public void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
-    void Bounce()
+    public void Bounce()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
@@ -172,7 +165,7 @@ public class player_Movement : MonoBehaviour
         if (isGrounded)
         {
             rb.drag = groundDrag; 
-            //adding drag so the player doesnt slide around whilst on the ground
+            //adding drag so the player doesn't slide around whilst on the ground
         }
         else
         {
@@ -244,7 +237,7 @@ public class player_Movement : MonoBehaviour
                 moveSpeed = hazardSpeed;
                 Debug.Log("speed slowed");
                 break;
-            //when the player collides with a nobject with the tag "Speed Hazard", their speed will decrease as long as they're on the object
+            //when the player collides with an object with the tag "Speed Hazard", their speed will decrease as long as they're on the object
         }
     }
 
