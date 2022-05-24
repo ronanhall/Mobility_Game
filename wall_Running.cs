@@ -18,12 +18,22 @@ public class wall_Running : MonoBehaviour
     //the force the player jumps off at the wall
     [SerializeField] public float maxWallRunTime;
     //the amount of time the player can wall run for
+    public Transform groundCheck;
+
+    public float sphereRadius = 0.6f;
+    //the radius of the OverlapSphere
+    public LayerMask wallLayer;
+    //the layermask specifying what layer the OverLapSphere interacts with
+    private Collider[] wallHitColliders;
+    //the group of colliders that detects if there is a wall next to the player
     
 
     bool wallLeft = false; 
     //whether there is a wall on the left
-    bool wallRight = false; 
+    bool wallRight = false;
     //whether there is a wall on the right
+    public bool wallNextToPlayer = false;
+    //whether there is a wall next to the player
 
     private Rigidbody rb; 
     //reference to the players rigidbody
@@ -41,7 +51,7 @@ public class wall_Running : MonoBehaviour
     [SerializeField] private float wallRunFOV; 
     //the players field of view whilst on a wall
     [SerializeField] private float wallRunFOVTime; 
-    //the time the player can run on a wall
+    //the time it takes for the camera to transition between the two FOV's
     [SerializeField] private float camTilt; 
     //the tilt of the camera when wall running
     [SerializeField] private float camTiltTime;
@@ -49,6 +59,7 @@ public class wall_Running : MonoBehaviour
 
     player_Movement pm;
     public bool inAir;
+    //private object wallHitCollider;
 
     public float tilt { get; private set; }
     
@@ -60,14 +71,28 @@ public class wall_Running : MonoBehaviour
 
     bool CanWallRun()
     {
-        return !Physics.Raycast(transform.position, Vector3.down, minJumpHeight); 
+        return !Physics.Raycast(groundCheck.position, Vector3.down, minJumpHeight);
+        //casting a raycast at the position of the groundCheck, downwards and at the legnth of the minJumpHeight float
     }
 
     void CheckWall()
     {
         wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallHit, wallDistance);
         wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallDistance);
-        //checking if there a wall to the left and right of the player
+        //checking if there is a wall to the left and right of the player
+        wallHitColliders = Physics.OverlapSphere(transform.position, sphereRadius, wallLayer, QueryTriggerInteraction.Ignore);
+        //this is creating a sphere at the players position, with the radius of the sphereRadius float, and is interacting with the wallLayer layerMask
+        if (wallHitColliders.Length != 0)
+        {
+            Debug.Log("wall is next to player");
+            wallNextToPlayer = true;
+            //when the collider length is 0, it means the player is close to the wall, so the wallNextToPlayer bool is set to true
+        }
+        else
+        {
+            wallNextToPlayer = false;
+            //if the colliders don't equal 0, it means the player isn't close to a wall, so the wallNextToPlayer bool is set to false
+        }       
     }
 
     private void Update()
@@ -76,30 +101,40 @@ public class wall_Running : MonoBehaviour
 
         if (CanWallRun())
         {
-            if (wallLeft)
+            /*if (wallLeft)
             {
                 StartWallRun();
-                //Debug.Log("wall is to the left");
+                Debug.Log("wall is to the left");
                 //Debug.Log("wallrunning left");
             }
             else if (wallRight)
             {
                 StartWallRun();
-                //Debug.Log("wall is to the right");
+                Debug.Log("wall is to the right");
                 //Debug.Log("wallrunning right");
             }
             else
             {
                 StopWallRun();
 
+            }*/
+            if (wallNextToPlayer)
+            {
+                StartWallRun();
+                Debug.Log("wallrunning");
+                //if the wallNextToPlayer bool is equal to true and the player can wallrun, they start wallrunning
             }
+            else
+            {
+                StopWallRun();
+                //if not, they stop wallrunning
+            }
+            
         }
         else
         {
             StopWallRun();
         }
-        //checking if there is a wall to the left and right of the player, and if there is they will start wall running, if there isn't they 
-        //won't begin wall running
     }
 
     void StartWallRun()
@@ -151,7 +186,7 @@ public class wall_Running : MonoBehaviour
                 }
             }
         //}
-        
+        //this needs sorting out
        
     }
 
@@ -163,7 +198,9 @@ public class wall_Running : MonoBehaviour
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, wallRunFOVTime * Time.deltaTime);
 
-        tilt = Mathf.Lerp(tilt, 0, Time.deltaTime);
+        tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
         //when the player stops wall running, it turns their gravity on, changes their field of view to normal and not tilting the camera
     }
+
+   
 }
