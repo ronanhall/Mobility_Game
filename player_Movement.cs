@@ -135,7 +135,7 @@ public class player_Movement : MonoBehaviour
             //changing the players scale on the y
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             //adding force downwards to the player so that they aren't floating when the scale gets changed
-            rb.AddForce(orientation.forward * slideSpeed, ForceMode.VelocityChange);
+            //rb.AddForce(orientation.forward * slideSpeed, ForceMode.VelocityChange);
             //adding the slide force in the direction the player is facing, making them slide
         }
 
