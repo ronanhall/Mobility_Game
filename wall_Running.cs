@@ -32,6 +32,8 @@ public class wall_Running : MonoBehaviour
     //whether there is a wall on the left
     bool wallRight = false;
     //whether there is a wall on the right
+    bool wallBack = false;
+    //whether there is a wall behind the player
     public bool wallNextToPlayer = false;
     //whether there is a wall next to the player
 
@@ -40,8 +42,10 @@ public class wall_Running : MonoBehaviour
 
     RaycastHit leftWallHit; 
     //storing if the raycast hit a wall to the left
-    RaycastHit rightWallHit; 
+    RaycastHit rightWallHit;
     //storing if the raycast hit a wall to the right
+    RaycastHit backWallHit;
+    //storing if the raycast hit a wall to the back of the player
 
     [Header("Camera")]
     [SerializeField] private Camera cam; 
@@ -61,6 +65,8 @@ public class wall_Running : MonoBehaviour
     public bool inAir;
     //private object wallHitCollider;
 
+    public float wallStickiness = 20f;
+
     public float tilt { get; private set; }
     
 
@@ -79,7 +85,9 @@ public class wall_Running : MonoBehaviour
     {
         wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallHit, wallDistance);
         wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallDistance);
-        //checking if there is a wall to the left and right of the player
+        //setting the bools to true if there is a wall to the left and right of the player
+        wallBack = Physics.Raycast(transform.position, -orientation.forward, out backWallHit, wallDistance);
+        //setting the bool to true if there is a wall behind the player
         wallHitColliders = Physics.OverlapSphere(transform.position, sphereRadius, wallLayer, QueryTriggerInteraction.Ignore);
         //this is creating a sphere at the players position, with the radius of the sphereRadius float, and is interacting with the wallLayer layerMask
         if (wallHitColliders.Length != 0)
@@ -139,53 +147,60 @@ public class wall_Running : MonoBehaviour
 
     void StartWallRun()
     {
-        //if ()
-        //{
-            inAir = true;
+        inAir = true;
             
-            rb.useGravity = false;
-            //setting the players gravity to 0
+        rb.useGravity = false;
+        //setting the players gravity to 0
 
-            rb.AddForce(Vector3.down * wallRunGravity, ForceMode.Force);
+        rb.AddForce(Vector3.down * wallRunGravity, ForceMode.Force);
 
-            //Invoke(nameof(StopWallRun), maxWallRunTime);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, wallRunFOV, wallRunFOVTime * Time.deltaTime);
+        //changing the camera's field of view when on a wall
 
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, wallRunFOV, wallRunFOVTime * Time.deltaTime);
-            //changing the camera's field of view when on a wall
+       
 
+        if (wallLeft)
+        {
+            tilt = Mathf.Lerp(tilt, -camTilt, Time.deltaTime);
+            //tilting the camera to the right if on a wall to the left
+           
+        }
+        else if (wallRight)
+        {
+            tilt = Mathf.Lerp(tilt, camTilt, Time.deltaTime);
+            //tilting the camera to the left if on a wall to the right
+            
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             if (wallLeft)
             {
-                tilt = Mathf.Lerp(tilt, -camTilt, Time.deltaTime);
-                //tilting the camera to the right if on a wall to the left
+                Vector3 wallRunJumpDirection = transform.up + leftWallHit.normal;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Acceleration);
+                Debug.Log("walljump left");
+                    //
+
             }
             else if (wallRight)
             {
-                tilt = Mathf.Lerp(tilt, camTilt, Time.deltaTime);
-                //tilting the camera to the left if on a wall to the right
-            }
+                Vector3 wallRunJumpDirection = transform.up + rightWallHit.normal;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
+                Debug.Log("walljump right");
+                    //
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            }
+            else if (wallBack)
             {
-                if (wallLeft)
-                {
-                    Vector3 wallRunJumpDirection = transform.up + leftWallHit.normal;
-                    rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-                    rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
-                    Debug.Log("walljump left");
-                    //
-
-                }
-                else if (wallRight)
-                {
-                    Vector3 wallRunJumpDirection = transform.up + rightWallHit.normal;
-                    rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-                    rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
-                    Debug.Log("walljump right");
-                    //
-
-                }
+                Vector3 wallRunJumpDirection = transform.up + backWallHit.normal;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
+                Debug.Log("walljump forward");
             }
-        //}
+        }
+        
         //this needs sorting out
        
     }
