@@ -15,8 +15,11 @@ public class enemy_Turret : MonoBehaviour
     //the amount of times the enemy will fire
     private float nextFireTime;
     //the time the enemy will wait to fire again
-    //public Transform head;
+    public Transform head;
     //reference to the head of the turret
+    public Transform playerHead;
+    //reference to the head of the player
+
 
 
     // Start is called before the first frame update
@@ -33,6 +36,8 @@ public class enemy_Turret : MonoBehaviour
         //getting the distance from the players positon and the turrets position
         if (distanceFromPlayer <= shootingRange && nextFireTime < Time.time)
         {
+            FindObjectOfType<audio_Manager>().Play("Enemy Alert");
+            //finding the audio manager, and playing the enemy alert sound effect
             Instantiate(enemyBullet, enemyFirePoint.transform.position, Quaternion.identity);
             //the code above is spawning a bullet at the enemy's firepoint position and making sure it doesn't rotate
             nextFireTime = fireRate + Time.time;
@@ -40,10 +45,10 @@ public class enemy_Turret : MonoBehaviour
         //this void fires a bullet only when the player is within the shootingRange and the nextFireTime is less
         //than the time that has passed
 
-        //if (distanceFromPlayer <= shootingRange)
-        //{
-          //  head.LookAt(player);
-        //}
+        if (distanceFromPlayer <= shootingRange)
+        {
+            head.LookAt(playerHead);
+        }
     }
 
     private void OnDrawGizmosSelected()
