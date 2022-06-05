@@ -20,6 +20,8 @@ public class player_Movement : MonoBehaviour
     [Header("Jumping")]
     public float jumpForce = 5f;
     public float bounceForce = 10f;
+    //[SerializeField] private Animator bounce_Pad_Animation;
+    //[SerializeField] private string springUp = "Spring Up";
 
     float playerHeight = 2f;
     //height of the player
@@ -64,6 +66,8 @@ public class player_Movement : MonoBehaviour
     public GameObject speedLines;
     public bool speedLinesActive;
 
+    private static player_Movement _instance;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
@@ -80,7 +84,7 @@ public class player_Movement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.5f)) 
+        if (Physics.Raycast(groundCheck.position, Vector3.down, out slopeHit, 1.5f)) 
         //casting a raycast downwards
         {
             if (slopeHit.normal != Vector3.up) 
@@ -112,12 +116,7 @@ public class player_Movement : MonoBehaviour
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized; 
         //projecting the players movement based on the angle of the ground object
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-            //reloading the current scene
-        }
+        
     }
 
     void MyInput()
@@ -127,11 +126,19 @@ public class player_Movement : MonoBehaviour
         verticalMovement = Input.GetAxisRaw("Vertical"); 
         //the input for vertical movement
 
-        moveDirection = orientation.forward * verticalMovement + orientation.right * horizontalMovement; //moving the player using those inputs
+        moveDirection = orientation.forward * verticalMovement + orientation.right * horizontalMovement;
+        //moving the player using those inputs
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+            //reloading the current scene
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z); 
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             //changing the players scale on the y
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             //adding force downwards to the player so that they aren't floating when the scale gets changed
@@ -141,7 +148,7 @@ public class player_Movement : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); 
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
     }
@@ -158,6 +165,9 @@ public class player_Movement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
         rb.AddForce(transform.up * bounceForce, ForceMode.Impulse);
+        //bounce_Pad_Animation.Play(springUp, 0, 0.0f);
+        FindObjectOfType<audio_Manager>().Play("Bounce Pad Spring");
+        //finding the audio manager, and playing the bounce pad spring sound effect
     }
 
     void ControlDrag()
@@ -177,6 +187,7 @@ public class player_Movement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        //MyInput();
     }
 
     void MovePlayer()
