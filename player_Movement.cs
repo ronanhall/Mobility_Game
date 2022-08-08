@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class player_Movement : MonoBehaviour
 {
@@ -9,13 +10,18 @@ public class player_Movement : MonoBehaviour
     private float initialMoveSpeed;
     public float moveSpeed = 6f;
     //players base move speed
-    public float speedBoostSpeed = 30f;
+    public float speedBoostSpeed = 7f;
     //players move speed when on a speed boost
     public float movementMultiplier = 10f;
     [SerializeField] float airMultiplier = 0.4f;
     [SerializeField] Transform orientation;
     public float hazardSpeed;
     //the speed of the player when they step on a hazard
+    public float boostTotal = 100f;
+    //the total amount of boost the player has
+    public float currentBoost;
+    //the players current speed boost total
+    public float lerpSpeed;
 
     [Header("Jumping")]
     public float jumpForce = 5f;
@@ -68,6 +74,9 @@ public class player_Movement : MonoBehaviour
 
     private static player_Movement _instance;
 
+    public speed_Boost speedBoost;
+    //reference to the speed_boost script
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
@@ -80,6 +89,11 @@ public class player_Movement : MonoBehaviour
 
         initialMoveSpeed = moveSpeed;
         //setting the initial move speed to the moveSpeed variable
+
+        currentBoost = boostTotal;
+        //setting the players speed boost to the boostTotal
+        speedBoost.SetMaxSpeedBoost(boostTotal);
+        //setting the sliders max value to the boostTotal 
     }
 
     private bool OnSlope()
@@ -113,10 +127,11 @@ public class player_Movement : MonoBehaviour
             Jump();
         }
 
-        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized; 
+        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
         //projecting the players movement based on the angle of the ground object
 
-        
+        //lerpSpeed = 3f * Time.deltaTime;
+
     }
 
     void MyInput()
@@ -150,6 +165,27 @@ public class player_Movement : MonoBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
             //setting the player scale back to the original scale when the player lets go of the crouch button
+        }
+
+        if (Input.GetKey(KeyCode.F) && isGrounded)
+        {
+            if (currentBoost > 0)
+            {
+                moveSpeed = speedBoostSpeed;
+                //setting the players move speed to the speed boost move speed
+                UseBoost(0.2f);
+                //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down the f button
+            }
+            else
+            {
+                moveSpeed = initialMoveSpeed;
+            }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            moveSpeed = initialMoveSpeed;
         }
     }
 
@@ -212,10 +248,16 @@ public class player_Movement : MonoBehaviour
         }
     }
 
-    void SpeedBoost()
+    void UseBoost(float subtractBoost)
     {
-         rb.AddForce(moveDirection.normalized * speedBoostSpeed * movementMultiplier, ForceMode.Acceleration);
-         //adding a force to the rigidbody in the movement direction whilst on the ground    
+
+        currentBoost -= subtractBoost; //* Time.deltaTime;
+        //subtracting the subtractBoost from the players currentBoost
+        
+
+
+        speedBoost.SetSpeedBoost(currentBoost);
+        //setting the speed boost sliders current value to the currentBoost value
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -227,7 +269,7 @@ public class player_Movement : MonoBehaviour
                 break;
             //when the player collides with an object with the tag "Bounce Pad", they will be bounced into the air by the Bounce() function
         }
-        switch (collision.gameObject.tag)
+       /* switch (collision.gameObject.tag)
         {
             case "Speed Boost":
                 moveSpeed = speedBoostSpeed;
@@ -249,9 +291,9 @@ public class player_Movement : MonoBehaviour
                 Debug.Log("speed slowed");
                 break;
             //when the player collides with an object with the tag "Speed Hazard", their speed will decrease as long as they're on the object
-        }
+        }*/
     }
-
+   
     public void StartSpeedLines()
     {
         speedLines.SetActive(true);
