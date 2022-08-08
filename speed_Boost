@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class speed_Boost : MonoBehaviour
+{
+    public Slider slider;
+
+    public void SetSpeedBoost(float speedBoost)
+    {
+        slider.value = speedBoost;
+        //setting the sliders value to the speedBoost float
+    }
+
+    public void SetMaxSpeedBoost(float speedBoost)
+    {
+        slider.maxValue = speedBoost;
+        slider.value = speedBoost;
+        //setting the max value of the speedBoost float
+    }
+}
