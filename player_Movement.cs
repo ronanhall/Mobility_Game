@@ -21,7 +21,7 @@ public class player_Movement : MonoBehaviour
     //the total amount of boost the player has
     public float currentBoost;
     //the players current speed boost total
-    public float lerpSpeed;
+   
 
     [Header("Jumping")]
     public float jumpForce = 5f;
@@ -130,8 +130,6 @@ public class player_Movement : MonoBehaviour
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
         //projecting the players movement based on the angle of the ground object
 
-        //lerpSpeed = 3f * Time.deltaTime;
-
     }
 
     void MyInput()
@@ -157,8 +155,6 @@ public class player_Movement : MonoBehaviour
             //changing the players scale on the y
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             //adding force downwards to the player so that they aren't floating when the scale gets changed
-            //rb.AddForce(orientation.forward * slideSpeed, ForceMode.VelocityChange);
-            //adding the slide force in the direction the player is facing, making them slide
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -167,7 +163,7 @@ public class player_Movement : MonoBehaviour
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
 
-        if (Input.GetKey(KeyCode.F) && isGrounded)
+        if (Input.GetKey(KeyCode.F))
         {
             if (currentBoost > 0)
             {
@@ -250,12 +246,16 @@ public class player_Movement : MonoBehaviour
 
     void UseBoost(float subtractBoost)
     {
-
-        currentBoost -= subtractBoost; //* Time.deltaTime;
+        currentBoost -= subtractBoost;
         //subtracting the subtractBoost from the players currentBoost
-        
+        speedBoost.SetSpeedBoost(currentBoost);
+        //setting the speed boost sliders current value to the currentBoost value
+    }
 
-
+    public void AddBoost(float addBoost)
+    {
+        currentBoost += addBoost;
+        //adding the addBoost amount back to the player's boost meter
         speedBoost.SetSpeedBoost(currentBoost);
         //setting the speed boost sliders current value to the currentBoost value
     }
