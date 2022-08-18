@@ -149,7 +149,7 @@ public class player_Movement : MonoBehaviour
             //reloading the current scene
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             //changing the players scale on the y
@@ -157,20 +157,20 @@ public class player_Movement : MonoBehaviour
             //adding force downwards to the player so that they aren't floating when the scale gets changed
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
 
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             if (currentBoost > 0)
             {
                 moveSpeed = speedBoostSpeed;
                 //setting the players move speed to the speed boost move speed
                 UseBoost(0.2f);
-                //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down the f button
+                //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down left shift
             }
             else
             {
@@ -179,7 +179,7 @@ public class player_Movement : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             moveSpeed = initialMoveSpeed;
         }
