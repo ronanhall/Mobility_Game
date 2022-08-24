@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class timer_Start : MonoBehaviour
+{
+
+    public timer timer;
+
+    public void OnTriggerEnter(Collider other)
+    {
+        timer.StartTimer();
+    }
+}
