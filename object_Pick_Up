@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class object_Pick_Up : MonoBehaviour
+{
+    public bool gunPickedUp;
+
+    public bool inRange;
+
+    public GameObject bouncePadGun;
+
+    public GameObject playerBouncePadGun;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        gunPickedUp = false;
+        inRange = false;
+    }
+
+    void Update()
+    {
+        if (inRange == true && Input.GetKeyDown(KeyCode.E))
+        {
+            bouncePadGun.SetActive(false);
+            playerBouncePadGun.SetActive(true);
+            gunPickedUp = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        inRange = true;
+    }
+}
