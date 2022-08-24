@@ -47,6 +47,8 @@ public class timer : MonoBehaviour
 
     //public float bestScore;
 
+    public bool timerStart;
+
 
     public static timer instance
     {
@@ -67,20 +69,27 @@ public class timer : MonoBehaviour
         scoreAmount = 10000;
         pointIncreasePerSecond = 40;
         bestScoreText.text = PlayerPrefs.GetFloat("score_1").ToString();
+        timerStart = false;
+        currentTimeText.text = "00" + ":00" + ":00";
+        currentTimeText.color = Color.red;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentTime = currentTime + Time.deltaTime;
-        //making the time time increase every second
-        TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        //allows for the easy conversion from seconds to minutes
-        currentTimeText.text = time.ToString(@"mm\:ss\:ff");
-        //defines how the time will be displayed
+        if (timerStart == true)
+        {
+            currentTime = currentTime + Time.deltaTime;
+            //making the time time increase every second
+            TimeSpan time = TimeSpan.FromSeconds(currentTime);
+            //allows for the easy conversion from seconds to minutes
+            currentTimeText.text = time.ToString(@"mm\:ss\:ff");
+            //defines how the time will be displayed
+            currentTimeText.color = Color.white;
 
-        timeText.text = time.ToString(@"mm\:ss\:ff") + " seconds";
+            timeText.text = time.ToString(@"mm\:ss\:ff") + " seconds";
+        }
         
         level = game_Manager.instance.GetCurrentLevel();
         //referencing the game manager script and the current level the player is on
@@ -151,5 +160,10 @@ public class timer : MonoBehaviour
         
     }
     //this needs sorting out
+
+    public void StartTimer()
+    {
+        timerStart = true;
+    }
 
 }
