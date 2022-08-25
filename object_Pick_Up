@@ -5,32 +5,50 @@ using UnityEngine;
 public class object_Pick_Up : MonoBehaviour
 {
     public bool gunPickedUp;
+    //bool to track if the gun has been picked up
 
     public bool inRange;
+    //bool to check if the player is in range to be able to pick up the gun
 
     public GameObject bouncePadGun;
+    //reference to the bounce pad gun on the pedestal
 
     public GameObject playerBouncePadGun;
+    //reference to the bounce pad gun on the player
     
     // Start is called before the first frame update
     void Start()
     {
         gunPickedUp = false;
+        //setting the gunPickedUp bool to false
         inRange = false;
+        //setting to the inRange bool to false
     }
 
     void Update()
     {
         if (inRange == true && Input.GetKeyDown(KeyCode.E))
+        //checking if the player is in range and the player presses the "E" key
         {
             bouncePadGun.SetActive(false);
+            //setting the bounce pad gun on the pedestal to false
             playerBouncePadGun.SetActive(true);
+            //setting the bounce pad gun on the player to active
             gunPickedUp = true;
+            //setting the gunPickedUp bool to true
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         inRange = true;
+        //if the player collides with the trigger, it sets the inRange bool to true
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        inRange = false;
+        //if the player exits the trigger, it sets the inRange bool to false
     }
 }
