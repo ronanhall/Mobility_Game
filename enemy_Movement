@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class enemy_Movement : MonoBehaviour
+{
+    public float moveSpeed;
+    //the enemy's moveSpeed
+    public int startingPoint;
+    //the point at which the enemy will start moving at
+    public Transform[] points;
+    //an array that dictates how many points the enemey will move to
+    private int i;
+    //a private int called i
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        transform.position = points[startingPoint].position;
+        //setting the enemy's start position to the first position in the position array
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Vector3.Distance(transform.position, points[i].position) < 0.02f)
+        {
+            i++;
+            //if the enemy's position is close to the next position, the position array will increase by 1
+            if (i == points.Length)
+            {
+                i = 0;
+                //if the int of i equals the amount of positions in the position array, it will be set back to 0
+            }
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, points[i].position, moveSpeed * Time.deltaTime);
+        //making the enemy move towards the next position in the position array from it's current posotion by it's moveSpeed
+    }
+}
