@@ -12,7 +12,9 @@ public class enemy_Bullet : MonoBehaviour
     Rigidbody bulletRB;
     //a reference to the Rigidbody that is on the bullet
 
-    player_Movement pm;
+    public player_Movement pm;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,19 +32,19 @@ public class enemy_Bullet : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         //the code above is making sure that the trigger is only called when an object
         //of the tag "Player" collides with it 
         {
-            //pm.moveSpeed = 3f;
-            Destroy(gameObject);
             Debug.Log("collides with player");
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            Destroy(gameObject);
+            //Scene scene = SceneManager.GetActiveScene();
+            //SceneManager.LoadScene(scene.name);
+
         }
-        else if (collision.gameObject.tag == "Wall")
+        if (other.gameObject.CompareTag("Wall"))
         {
             Destroy(gameObject);
             Debug.Log("collides with " + gameObject.tag);
@@ -50,4 +52,6 @@ public class enemy_Bullet : MonoBehaviour
         //the code above destroys the bullet whenever it collides with an object, with it reloading the scene
         //when it collides with a gameobject with the tag of "Player"
     }
+
+   
 }
