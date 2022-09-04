@@ -15,8 +15,9 @@ public class player_Movement : MonoBehaviour
     public float movementMultiplier = 10f;
     [SerializeField] float airMultiplier = 0.4f;
     [SerializeField] Transform orientation;
-    public float hazardSpeed;
+    public float slowSpeed = 3f;
     //the speed of the player when they step on a hazard
+    public bool slowedDown;
     public float boostTotal = 100f;
     //the total amount of boost the player has
     public float currentBoost;
@@ -94,6 +95,7 @@ public class player_Movement : MonoBehaviour
         //setting the players speed boost to the boostTotal
         speedBoost.SetMaxSpeedBoost(boostTotal);
         //setting the sliders max value to the boostTotal 
+        slowedDown = false;
     }
 
     private bool OnSlope()
@@ -163,7 +165,7 @@ public class player_Movement : MonoBehaviour
             //setting the player scale back to the original scale when the player lets go of the crouch button
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && slowedDown == false)
         {
             if (currentBoost > 0)
             {
@@ -171,6 +173,7 @@ public class player_Movement : MonoBehaviour
                 //setting the players move speed to the speed boost move speed
                 UseBoost(0.2f);
                 //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down left shift
+                
             }
             else
             {
@@ -182,7 +185,14 @@ public class player_Movement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             moveSpeed = initialMoveSpeed;
+            FindObjectOfType<audio_Manager>().StopPlaying("Boost Sound");
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            HazardEnabled();
+        }
+
     }
 
     public void Jump()
@@ -244,12 +254,13 @@ public class player_Movement : MonoBehaviour
         }
     }
 
-    void UseBoost(float subtractBoost)
+    public void UseBoost(float subtractBoost)
     {
         currentBoost -= subtractBoost;
         //subtracting the subtractBoost from the players currentBoost
         speedBoost.SetSpeedBoost(currentBoost);
         //setting the speed boost sliders current value to the currentBoost value
+        FindObjectOfType<audio_Manager>().Play("Boost Sound");
     }
 
     public void AddBoost(float addBoost)
@@ -260,6 +271,8 @@ public class player_Movement : MonoBehaviour
         //setting the speed boost sliders current value to the currentBoost value
     }
 
+    
+
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)
@@ -269,7 +282,7 @@ public class player_Movement : MonoBehaviour
                 break;
             //when the player collides with an object with the tag "Bounce Pad", they will be bounced into the air by the Bounce() function
         }
-       /* switch (collision.gameObject.tag)
+       /*switch (collision.gameObject.tag)
         {
             case "Speed Boost":
                 moveSpeed = speedBoostSpeed;
@@ -286,14 +299,22 @@ public class player_Movement : MonoBehaviour
         }
         switch (collision.gameObject.tag)
         {
-            case "Speed Hazard":
-                moveSpeed = hazardSpeed;
+            case "Enemy Bullet":
+                HazardEnabled();
                 Debug.Log("speed slowed");
                 break;
             //when the player collides with an object with the tag "Speed Hazard", their speed will decrease as long as they're on the object
         }*/
     }
-   
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy Bullet"))
+        {
+            HazardEnabled();
+        }
+    }
+
     public void StartSpeedLines()
     {
         speedLines.SetActive(true);
@@ -308,5 +329,19 @@ public class player_Movement : MonoBehaviour
         //deactivating the speed lines particle effect
         speedLinesActive = false;
         //setting this bool to false
+    }
+
+    public void HazardEnabled()
+    {
+        slowedDown = true;
+        moveSpeed = slowSpeed;
+        StartCoroutine(HazardPowerDownRoutine());
+    }
+
+    IEnumerator HazardPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        slowedDown = false;
+        moveSpeed = 10f;
     }
 }
