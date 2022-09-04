@@ -312,6 +312,7 @@ public class player_Movement : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy Bullet"))
         {
             HazardEnabled();
+            //if the players comes into contact with a gameObject with the tag Enemy Bullet, the HazardEnabled coroutine will start
         }
     }
 
@@ -334,14 +335,20 @@ public class player_Movement : MonoBehaviour
     public void HazardEnabled()
     {
         slowedDown = true;
+        //setting the slowedDown bool to true
         moveSpeed = slowSpeed;
+        //setting the players moveSpeed to the slowSpeed
         StartCoroutine(HazardPowerDownRoutine());
+        //starting the coroutine that dictates how long the player gets slowed down for
     }
 
     IEnumerator HazardPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
+        //how long the coroutine lasts (5 seconds)
         slowedDown = false;
+        //after that time is up, setting the slowedDown bool back to false
         moveSpeed = 10f;
+        //setting the players moveSpeed back to their initial speed
     }
 }
