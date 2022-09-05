@@ -7,15 +7,15 @@ public class enemy_Turret : MonoBehaviour
     private Transform target;
     //the target if the turret
 
-    //public GameObject enemyBullet; 
+    public GameObject enemyBullet; 
     //the enemy bullet prefab
-    //public GameObject enemyFirePoint; 
+    public GameObject enemyFirePoint; 
     //the point at which the bullet prefab will be instantiated
     public float shootingRange; 
     //the range at which the enemy will shoot
-    //public float fireRate = 5; 
+    public float fireRate = 5; 
     //the amount of times the enemy will fire
-    //private float nextFireTime;
+    private float nextFireTime;
     //the time the enemy will wait to fire again
     public Transform head;
     //reference to the head of the turret
@@ -101,11 +101,24 @@ public class enemy_Turret : MonoBehaviour
         {
             target = nearestPlayer.transform;
             //setting the target to the nearestPlayer's transform
+            Shoot();
         }
         else
         {
             target = null;
             //setting the target back to nothing
+        }
+    }
+
+    public void Shoot()
+    {
+        if (nextFireTime < Time.time)
+        {
+            FindObjectOfType<audio_Manager>().Play("Enemy Alert");
+            //finding the audio manager, and playing the enemy alert sound effect
+            Instantiate(enemyBullet, enemyFirePoint.transform.position, Quaternion.identity);
+            //the code above is spawning a bullet at the enemy's firepoint position and making sure it doesn't rotate
+            nextFireTime = fireRate + Time.time;
         }
     }
 }
