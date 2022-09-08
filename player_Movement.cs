@@ -78,6 +78,9 @@ public class player_Movement : MonoBehaviour
     public speed_Boost speedBoost;
     //reference to the speed_boost script
 
+    public GameObject hurtUI;
+    //reference to the hurtUI
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
@@ -313,6 +316,7 @@ public class player_Movement : MonoBehaviour
         {
             HazardEnabled();
             //if the players comes into contact with a gameObject with the tag Enemy Bullet, the HazardEnabled coroutine will start
+            BulletUIStart();
         }
     }
 
@@ -350,5 +354,21 @@ public class player_Movement : MonoBehaviour
         //after that time is up, setting the slowedDown bool back to false
         moveSpeed = 10f;
         //setting the players moveSpeed back to their initial speed
+    }
+
+    public void BulletUIStart()
+    {
+        hurtUI.SetActive(true);
+        //setting the hurtUI to active
+        StartCoroutine(BulletUIStop());
+        //starting the coroutine
+    }
+
+    IEnumerator BulletUIStop()
+    {
+        yield return new WaitForSeconds(0.2f);
+        //waiting for 0.2 seconds before turning the hurtUI off 
+        hurtUI.SetActive(false);
+        //deactivating the hurtUI
     }
 }
