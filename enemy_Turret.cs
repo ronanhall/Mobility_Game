@@ -102,6 +102,8 @@ public class enemy_Turret : MonoBehaviour
             target = nearestPlayer.transform;
             //setting the target to the nearestPlayer's transform
             Shoot();
+            //shooting
+            FindObjectOfType<audio_Manager>().Play("Enemy Reaction");
         }
         else
         {
@@ -119,6 +121,9 @@ public class enemy_Turret : MonoBehaviour
             Instantiate(enemyBullet, enemyFirePoint.transform.position, Quaternion.identity);
             //the code above is spawning a bullet at the enemy's firepoint position and making sure it doesn't rotate
             nextFireTime = fireRate + Time.time;
+            //resseting the turrets fire time
+            FindObjectOfType<audio_Manager>().Play("Enemy Shoot");
+            //finding the audio manager and playing the enemy shoot sound effect
         }
     }
 }
