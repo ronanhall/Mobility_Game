@@ -47,4 +47,16 @@ public class main_Menu : MonoBehaviour
         bestTime1.text = timer.instance.bestTime1.ToString();
     }*/
 
+    public void MenuConfirmSound()
+    {
+        FindObjectOfType<audio_Manager>().Play("Menu Confirm");
+        //playing the menu confirm sound
+    }
+
+    public void MenuBackSound()
+    {
+        FindObjectOfType<audio_Manager>().Play("Menu Back");
+        //playing the menu back sound
+    }
+
 }
