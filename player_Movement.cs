@@ -203,6 +203,7 @@ public class player_Movement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        FindObjectOfType<audio_Manager>().Play("Player Jump");
     }
 
     public void Bounce()
@@ -361,14 +362,14 @@ public class player_Movement : MonoBehaviour
         hurtUI.SetActive(true);
         //setting the hurtUI to active
         StartCoroutine(BulletUIStop());
-        //starting the coroutine
+        //staring the coroutine 
     }
 
     IEnumerator BulletUIStop()
     {
         yield return new WaitForSeconds(0.2f);
-        //waiting for 0.2 seconds before turning the hurtUI off 
+        //waiting for 0.2 seconds before turning the hurtUI off
         hurtUI.SetActive(false);
-        //deactivating the hurtUI
+        //deactiviating the hurtUI
     }
 }
