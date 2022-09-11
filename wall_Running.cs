@@ -217,5 +217,12 @@ public class wall_Running : MonoBehaviour
         //when the player stops wall running, it turns their gravity on, changes their field of view to normal and not tilting the camera
     }
 
-   
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, sphereRadius);
+        //drawing the shooting range in the colour of red
+    }
+
+
 }
