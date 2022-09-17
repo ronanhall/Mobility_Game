@@ -13,16 +13,34 @@ public class enemy_Movement : MonoBehaviour
     private int i;
     //a private int called i
 
+    public Transform player;
+
+    
+    public enemy_Turret turret;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = points[startingPoint].position;
+        transform.position = transform.position;
         //setting the enemy's start position to the first position in the position array
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (turret.playerEnteredRange == false)
+        {
+            Move();
+        }
+        else
+        {
+            MoveWithPlayer();
+        }
+
+        
+    }
+
+    public void Move()
     {
         if (Vector3.Distance(transform.position, points[i].position) < 0.02f)
         {
@@ -34,8 +52,26 @@ public class enemy_Movement : MonoBehaviour
                 //if the int of i equals the amount of positions in the position array, it will be set back to 0
             }
         }
-
+        
         transform.position = Vector3.MoveTowards(transform.position, points[i].position, moveSpeed * Time.deltaTime);
         //making the enemy move towards the next position in the position array from it's current posotion by it's moveSpeed
+        
+       
+    }
+
+    public void MoveWithPlayer()
+    {
+        
+        if (Vector3.Distance(transform.position, points[i].position) < 0.01f)
+        {
+            Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, 0f);
+            transform.position = newPosition;
+
+        }
+        else
+        {
+            Vector3 moveTowardsPlayer = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y, player.position.z), moveSpeed * Time.deltaTime);
+            transform.position = moveTowardsPlayer;
+        }
     }
 }
