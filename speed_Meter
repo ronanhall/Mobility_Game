@@ -1,0 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class speed_Meter : MonoBehaviour
+{
+    public Rigidbody target;
+    //reference to the players rigidbody
+
+    public float maxSpeed;
+    //the players max speed
+
+    private float speed = 0.0f;
+    //the speed of the player
+
+    public Image speedMeter;
+    //reference to the image on the UI
+
+    public Sprite sprite0;
+    public Sprite sprite1;
+    public Sprite sprite2;
+    public Sprite sprite3;
+    public Sprite sprite4;
+    public Sprite sprite5;
+    public Sprite sprite6;
+    public Sprite sprite7;
+    public Sprite sprite8;
+    public Sprite sprite9;
+    public Sprite sprite10;
+    public Sprite sprite11;
+    //these are the sprites that the image will change to
+    
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        InvokeRepeating("ChangeMeter", 0f, 0.05f);
+        //calling the Change Meter function every 0.05 seconds
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        speed = target.velocity.magnitude * 3.6f;
+        //setting the speed to the velocity of the players rigidbody multiplied by 3.6 to convert it into kilometers       
+    }
+
+    public void ChangeMeter()
+    {
+        if (speed <= 1)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite0;
+        }
+        else if (speed <= 10)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite1;
+        }
+        else if (speed <= 20)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite2;
+        }
+        else if (speed <= 30)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite3;
+        }
+        else if (speed <= 40)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite4;
+        }
+        else if (speed <= 50)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite5;
+        }
+        else if (speed <= 60)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite6;
+        }
+        else if (speed <= 70)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite7;
+        }
+        else if (speed <= 80)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite8;
+        }
+        else if (speed <= 90)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite9;
+        }
+        else if (speed <= 100)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite10;
+        }
+        else if (speed <= 110)
+        {
+            gameObject.GetComponent<Image>().sprite = sprite11;
+        }
+        //all this is doing is when the player reaches above certain speeds, the sprite of the image will change
+    }
+}
