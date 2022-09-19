@@ -22,16 +22,14 @@ public class player_Movement : MonoBehaviour
     //the total amount of boost the player has
     public float currentBoost;
     //the players current speed boost total
-   
+    public bool usingBoost;
+    //a bool to check if the player is using their boost
 
     [Header("Jumping")]
     public float jumpForce = 5f;
     public float bounceForce = 10f;
     //[SerializeField] private Animator bounce_Pad_Animation;
     //[SerializeField] private string springUp = "Spring Up";
-
-    float playerHeight = 2f;
-    //height of the player
 
     float horizontalMovement; 
     //horizontal movement of the player
@@ -176,11 +174,13 @@ public class player_Movement : MonoBehaviour
                 //setting the players move speed to the speed boost move speed
                 UseBoost(0.2f);
                 //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down left shift
-                
             }
             else
             {
                 moveSpeed = initialMoveSpeed;
+                //setting the players move speed back to their initial move speed
+                usingBoost = false;
+                //setting the usingBoost bool to false
             }
 
         }
@@ -188,12 +188,16 @@ public class player_Movement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             moveSpeed = initialMoveSpeed;
-            FindObjectOfType<audio_Manager>().StopPlaying("Boost Sound");
+            //setting the players move speed back to their initial move speed
+            usingBoost = false;
+            //setting the usingBoost bool to false
         }
+        
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (usingBoost != true)
         {
-            HazardEnabled();
+            //FindObjectOfType<audio_Manager>().Play("Boost Sound");
+            //playing the boost sound when the player uses their boost
         }
 
     }
@@ -204,6 +208,7 @@ public class player_Movement : MonoBehaviour
         //resetting the y velocity to 0
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         FindObjectOfType<audio_Manager>().Play("Player Jump");
+        //playing the player jump sound effect
     }
 
     public void Bounce()
@@ -255,6 +260,8 @@ public class player_Movement : MonoBehaviour
             rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
             //whilst in the air, changing the drag to that of the air drag
             StartSpeedLines();
+            FindObjectOfType<audio_Manager>().Play("Player Land");
+            //playing the player land sound effect
         }
     }
 
@@ -264,7 +271,7 @@ public class player_Movement : MonoBehaviour
         //subtracting the subtractBoost from the players currentBoost
         speedBoost.SetSpeedBoost(currentBoost);
         //setting the speed boost sliders current value to the currentBoost value
-        FindObjectOfType<audio_Manager>().Play("Boost Sound");
+        usingBoost = true;
     }
 
     public void AddBoost(float addBoost)
@@ -285,30 +292,7 @@ public class player_Movement : MonoBehaviour
                 Bounce();
                 break;
             //when the player collides with an object with the tag "Bounce Pad", they will be bounced into the air by the Bounce() function
-        }
-       /*switch (collision.gameObject.tag)
-        {
-            case "Speed Boost":
-                moveSpeed = speedBoostSpeed;
-                Debug.Log("speed boost");
-                break;
-            //when the player collides with an object with the tag "Speed Boost", their speed increases as long as they're on the object
-        }
-        switch (collision.gameObject.tag)
-        {
-            case "Ground":
-                moveSpeed = initialMoveSpeed;
-                break;
-            //the the player collides with an object with the tag "Ground", their speed will revert back to their normal speed
-        }
-        switch (collision.gameObject.tag)
-        {
-            case "Enemy Bullet":
-                HazardEnabled();
-                Debug.Log("speed slowed");
-                break;
-            //when the player collides with an object with the tag "Speed Hazard", their speed will decrease as long as they're on the object
-        }*/
+        }   
     }
 
     private void OnTriggerEnter(Collider other)
@@ -318,6 +302,23 @@ public class player_Movement : MonoBehaviour
             HazardEnabled();
             //if the players comes into contact with a gameObject with the tag Enemy Bullet, the HazardEnabled coroutine will start
             BulletUIStart();
+        }
+
+        if (other.gameObject.CompareTag("Speed Hazard"))
+        {
+            moveSpeed = slowSpeed;
+            slowedDown = true;
+            //when the player enters a trigger with the tag Speed Hazard, it slows them down and sets the slowedDown bool to true
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Speed Hazard"))
+        {
+            moveSpeed = 10f;
+            slowedDown = false;
+            //when the player exits a trigger with the tag Speed Hazard, it sets the move speed back to normal and the slowedDown bool to false
         }
     }
 
@@ -343,6 +344,7 @@ public class player_Movement : MonoBehaviour
         //setting the slowedDown bool to true
         moveSpeed = slowSpeed;
         //setting the players moveSpeed to the slowSpeed
+        FindObjectOfType<audio_Manager>().Play("Player Hit");
         StartCoroutine(HazardPowerDownRoutine());
         //starting the coroutine that dictates how long the player gets slowed down for
     }
