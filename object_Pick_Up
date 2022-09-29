@@ -36,8 +36,10 @@ public class object_Pick_Up : MonoBehaviour
             //setting the bounce pad gun on the player to active
             gunPickedUp = true;
             //setting the gunPickedUp bool to true
+            FindObjectOfType<audio_Manager>().Play("Pick Up Sound");
+            //finding the auido manager, and playing the pick up sound effect
         }
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
