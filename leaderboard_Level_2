@@ -6,7 +6,7 @@ using LootLocker.Requests;
 using UnityEngine;
 using TMPro;
 
-public class level_2_Leaderboard : MonoBehaviour
+public class level_1_Leaderboard : MonoBehaviour
 {
     public TMP_InputField memberID;
     //input fields for the players name and score
