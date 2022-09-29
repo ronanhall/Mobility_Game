@@ -31,6 +31,8 @@ public class level_Transition_Win : MonoBehaviour
             //finding the auido manager, and playing the menu music
             FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
             //finding the audio manager, and stopping the level music
+            FindObjectOfType<audio_Manager>().Play("Finish Level");
+            //finding the auido manager, and playing the finish level sound effect
         }
     }
 
@@ -56,7 +58,18 @@ public class level_Transition_Win : MonoBehaviour
 
     public void NextLevel()
     {
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
     }
 
     public void RetryLevel()
@@ -68,7 +81,7 @@ public class level_Transition_Win : MonoBehaviour
         player.GetComponent<player_Look>().enabled = true;
         player.GetComponent<player_Movement>().enabled = true;
         gun.GetComponent<bounce_Pad_Gun>().enabled = true;
-        //truning all these player components one
+        //turning all these player components one
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
