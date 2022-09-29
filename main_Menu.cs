@@ -16,7 +16,7 @@ public class main_Menu : MonoBehaviour
         //making the cursur invisible
         //FindObjectOfType<audio_Manager>().Play("Level Music");
         //finding the auido manager, and playing the level music
-        //FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
         //finding the audio manager, and stopping the menu music
     }
 
@@ -32,20 +32,41 @@ public class main_Menu : MonoBehaviour
         //loading level 1
         //FindObjectOfType<audio_Manager>().Play("Level Music");
         //finding the auido manager, and playing the level music
-        //FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
         //finding the audio manager, and stopping the menu music
     }
 
     public void LoadLevel1()
     {
         SceneManager.LoadScene(2);
-        //lodaing level 2
+        //lodaing level 1
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
     }
 
-    /*private void Update()
+    public void LoadLevel2()
     {
-        bestTime1.text = timer.instance.bestTime1.ToString();
-    }*/
+        SceneManager.LoadScene(3);
+        //lodaing level 1
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
+    }
+
+    public void LoadLevel3()
+    {
+        SceneManager.LoadScene(4);
+        //lodaing level 1
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
+    }
+
+    public void LoadLevel4()
+    {
+        SceneManager.LoadScene(5);
+        //lodaing level 1
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the audio manager, and stopping the menu music
+    }
 
     public void MenuConfirmSound()
     {
@@ -58,5 +79,4 @@ public class main_Menu : MonoBehaviour
         FindObjectOfType<audio_Manager>().Play("Menu Back");
         //playing the menu back sound
     }
-
 }
