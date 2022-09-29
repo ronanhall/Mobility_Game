@@ -88,7 +88,7 @@ public class timer : MonoBehaviour
             //defines how the time will be displayed
             currentTimeText.color = Color.white;
 
-            timeText.text = time.ToString(@"mm\:ss\:ff") + " seconds";
+            timeText.text = time.ToString(@"mm\:ss\:ff");
         }
         
         level = game_Manager.instance.GetCurrentLevel();
