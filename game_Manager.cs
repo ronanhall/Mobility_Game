@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class game_Manager : MonoBehaviour
 {
     private static game_Manager _instance;
 
     public float currentLevel;
+
+    public float sensX = 50f;
+
+    public float sensY = 50f;
 
     public static game_Manager instance
     {
@@ -47,7 +52,6 @@ public class game_Manager : MonoBehaviour
     {
         return currentLevel;
     }
-    
-    
 
+   
 }
