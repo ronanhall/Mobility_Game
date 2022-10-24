@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class player_Look : MonoBehaviour
 {
-    [SerializeField] private float sensX; //sensitivity on the x axis
-    [SerializeField] private float sensY; //sensititvity on the y axis
+    [SerializeField] private float sensX; 
+    //sensitivity on the x axis
+    [SerializeField] private float sensY; 
+    //sensititvity on the y axis
 
-    [SerializeField] Transform cam; //reference to the camera
+    [SerializeField] Transform cam; 
+    //reference to the camera
     [SerializeField] Transform orientation;
+    //keeps track of the orientation of the player
 
-    float mouseX; //mouse sensitivity on the x axis
-    float mouseY; //mouse sensitivity on the y axis
+    float mouseX; 
+    //mouse input on the x axis
+    float mouseY; 
+    //mouse input on the y axis
 
     float multiplier = 0.05f;
 
@@ -23,8 +29,10 @@ public class player_Look : MonoBehaviour
     private void Start()
     {
 
-        Cursor.lockState = CursorLockMode.Locked; //locking cursur to the middle of the screen
-        Cursor.visible = false; //making the cursur invisible
+        Cursor.lockState = CursorLockMode.Locked; 
+        //locking cursur to the middle of the screen
+        Cursor.visible = false; 
+        //making the cursur invisible
     }
 
     private void Update()
@@ -32,8 +40,12 @@ public class player_Look : MonoBehaviour
         
         MyInputs();
 
-        cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, wallRun.tilt); //setting camera rotation to the rotation along the x axis
-        orientation.transform.rotation = Quaternion.Euler(0, yRotation, 0); //rotating the player along the y axis
+        cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, wallRun.tilt); 
+        //setting camera rotation to the rotation along the x axis
+        orientation.transform.rotation = Quaternion.Euler(0, yRotation, 0); 
+        //rotating the player along the y axis
+
+
     }
 
     void MyInputs()
@@ -42,9 +54,12 @@ public class player_Look : MonoBehaviour
         mouseY = Input.GetAxisRaw("Mouse Y");
         //setting the mouse x and y to their respective input axis
 
-        yRotation += mouseX * sensX * multiplier; //adding horizontal input to the y rotation
-        xRotation -= mouseY * sensY * multiplier; //subtracting vertical input to the x rotation, iff added it would be inverted
+        yRotation += mouseX * game_Manager.instance.sensX * multiplier; 
+        //adding horizontal input to the y rotation
+        xRotation -= mouseY * game_Manager.instance.sensY * multiplier; 
+        //subtracting vertical input to the x rotation, if added it would be inverted
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); //clamping the x rotation
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f); 
+        //clamping the x rotation
     }
 }
