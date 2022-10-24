@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class options_Menu : MonoBehaviour
+{
+
+    public Slider xSens;
+    //reference to the slider that changes the sensitivity on the x axis
+    public Slider ySens;
+    //reference to the slider that changes the sensitivity on the y axis
+    public TextMeshProUGUI xSensText;
+    //reference to the text that displays the x sensitivity value
+    public TextMeshProUGUI ySensText;
+   //reference to the text that displays the y sensitivity value
+
+   
+    void Awake()
+    {
+        xSens.value = game_Manager.instance.sensX;
+        //setting the value of the slider to game_Manager's x sensitivity value
+        ySens.value = game_Manager.instance.sensY;
+        //setting the value of the slider to game_Manager's y sensitivity value
+        xSensText.text = game_Manager.instance.sensX.ToString();
+        //setting the value of the text to game_Manager's x sensitivity value
+        ySensText.text = game_Manager.instance.sensY.ToString();
+        //setting the value of the text to game_Manager's y sensitivity value
+    }
+
+    public void AdjustSensX(float optionsSensX)
+    {
+        game_Manager.instance.sensX = optionsSensX;
+        //making the game_Manager's x sensitivity value equal the optionsSensX, meaning it can be changed via the slider
+        xSensText.text = optionsSensX.ToString();
+        //setting the text value to the optionSensX value
+    }
+
+    public void AdjustSensY(float optionsSensY)
+    {
+        game_Manager.instance.sensY = optionsSensY;
+        //making the game_Manager's y sensitivity value equal the optionsSensY, meaning it can be changed via the slider
+        ySensText.text = optionsSensY.ToString();
+        //setting the text value to the optionSensY value
+    }
+}
