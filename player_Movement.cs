@@ -79,6 +79,11 @@ public class player_Movement : MonoBehaviour
     public GameObject hurtUI;
     //reference to the hurtUI
 
+    
+
+    public GameObject boostController;
+    //reference to the boostController GameObject
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
@@ -174,6 +179,7 @@ public class player_Movement : MonoBehaviour
                 //setting the players move speed to the speed boost move speed
                 UseBoost(0.2f);
                 //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down left shift
+                
             }
             else
             {
@@ -181,24 +187,24 @@ public class player_Movement : MonoBehaviour
                 //setting the players move speed back to their initial move speed
                 usingBoost = false;
                 //setting the usingBoost bool to false
+                boostController.gameObject.SetActive(false);
+                //setting the boostController to be not active
+                //FindObjectOfType<audio_Manager>().Play("Boost Close");
+                //playing the "Boost Close" sound
             }
 
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) && slowedDown == false)
         {
             moveSpeed = initialMoveSpeed;
             //setting the players move speed back to their initial move speed
             usingBoost = false;
             //setting the usingBoost bool to false
+            boostController.gameObject.SetActive(false);
+            //setting the boostController to be not active
         }
-        
 
-        if (usingBoost != true)
-        {
-            //FindObjectOfType<audio_Manager>().Play("Boost Sound");
-            //playing the boost sound when the player uses their boost
-        }
 
     }
 
@@ -272,7 +278,10 @@ public class player_Movement : MonoBehaviour
         speedBoost.SetSpeedBoost(currentBoost);
         //setting the speed boost sliders current value to the currentBoost value
         usingBoost = true;
+        boostController.gameObject.SetActive(true);
+        //setting the boostController to be active
     }
+
 
     public void AddBoost(float addBoost)
     {
@@ -302,6 +311,7 @@ public class player_Movement : MonoBehaviour
             HazardEnabled();
             //if the players comes into contact with a gameObject with the tag Enemy Bullet, the HazardEnabled coroutine will start
             BulletUIStart();
+            //starting the bulletHit coroutine
         }
 
         if (other.gameObject.CompareTag("Speed Hazard"))
