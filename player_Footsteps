@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class player_Footsteps : MonoBehaviour
+{
+    public AudioClip[] footsteps;
+    //the array that contains the footstep audio clips
+    private AudioSource audioSource;
+    //the audio suorce
+    private AudioClip footstepsClip;
+    //the single audio clip
+    public Rigidbody target;
+    //the target rigidbodys speed
+    public player_Movement pm;
+    //reference to the player_Movement script
+    public float speed;
+    //the players current speed
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        InvokeRepeating("PlayFootstep", 0f, 0.25f);
+        //invoking the "PlayFootstep" method every 0.25 seconds
+        audioSource = GetComponent<AudioSource>();
+        //getting the audio source attatched to the GameObject
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        speed = target.velocity.magnitude * 3.6f;
+        //setting the speed to the velocity of the players rigidbody multiplied by 3.6 to convert it into kilometers
+    }
+
+    public void PlayFootstep()
+    {
+        if (speed >= 20 && pm.isGrounded == true)
+        {
+            int randomIndex = Random.Range(0, footsteps.Length);
+
+            footstepsClip = footsteps[randomIndex];
+
+            audioSource.clip = footstepsClip;
+
+            audioSource.Play();
+        }
+        //if the player is going faster than 20km/h and they are on the ground, a random footstep audio clip will play
+    }
+
+
+}
