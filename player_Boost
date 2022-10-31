@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class player_Boost : MonoBehaviour
+{
+    
+    public AudioSource audioSource;
+    //the AudioSouurce attatched to the GameObject
+
+
+    public GameObject boostController;
+    //reference to the boostController GameObject
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        boostController.gameObject.SetActive(false);
+        //setting the boostController to be not activated when starting
+    }
+
+    private void OnEnable()
+    {
+        audioSource.Play();
+        //playing the audioSource when the boostController gets enabled
+    }
+}
