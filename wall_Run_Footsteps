@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class wall_Run_Footsteps : MonoBehaviour
+{
+    public AudioClip[] wallFootsteps;
+    //the array that contains the wall footstep audio clips
+    private AudioSource audioSource;
+    //the audio suorce
+    private AudioClip wallFootstepsClip;
+    //the single audio clip
+    public Rigidbody target;
+    //the target rigidbodys speed
+    public wall_Running wr;
+    //reference to the wall_Running script
+    public float speed;
+    //the players current speed
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        InvokeRepeating("PlayFootstep", 0f, 0.25f);
+        //invoking the "PlayFootstep" method every 0.25 seconds
+        audioSource = GetComponent<AudioSource>();
+        //getting the audio source attatched to the GameObject
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        speed = target.velocity.magnitude * 3.6f;
+        //setting the speed to the velocity of the players rigidbody multiplied by 3.6 to convert it into kilometers
+    }
+
+    public void PlayFootstep()
+    {
+        if (speed >= 20 && wr.inAir == true)
+        {
+            int randomIndex = Random.Range(0, wallFootsteps.Length);
+
+            wallFootstepsClip = wallFootsteps[randomIndex];
+
+            audioSource.clip = wallFootstepsClip;
+
+            audioSource.Play();
+        }
+        //if the player is going faster than 20km/h and they are wallrunning, a random wallrunning footstep audio clip will play
+    }
+
+
+}
