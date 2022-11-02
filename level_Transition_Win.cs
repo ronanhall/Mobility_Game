@@ -21,6 +21,8 @@ public class level_Transition_Win : MonoBehaviour
     
     public GameObject gun;
     //reference to the bounce pad gun
+
+    public GameObject boostController;
    
     public void OnCollisionEnter(Collision collision)
     {
@@ -29,7 +31,15 @@ public class level_Transition_Win : MonoBehaviour
             FinishLevel();
             FindObjectOfType<audio_Manager>().Play("Menu Music");
             //finding the auido manager, and playing the menu music
-            FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
+            FindObjectOfType<audio_Manager>().StopPlaying("Level 1 Music");
+            //finding the audio manager, and stopping the level
+            FindObjectOfType<audio_Manager>().StopPlaying("Level 2 Music");
+            //finding the audio manager, and stopping the level music
+            FindObjectOfType<audio_Manager>().StopPlaying("Level 3 Music");
+            //finding the audio manager, and stopping the level music
+            FindObjectOfType<audio_Manager>().StopPlaying("Level 4 Music");
+            //finding the audio manager, and stopping the level music
+            FindObjectOfType<audio_Manager>().StopPlaying("Level 5 Music");
             //finding the audio manager, and stopping the level music
             FindObjectOfType<audio_Manager>().Play("Finish Level");
             //finding the auido manager, and playing the finish level sound effect
@@ -54,9 +64,10 @@ public class level_Transition_Win : MonoBehaviour
         //making the cursur visible
         levelIsFinished = true;
         //setting the bool to true
+        boostController.gameObject.SetActive(false);
     }
 
-    public void NextLevel()
+    public void Level2()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         Time.timeScale = 1f;
@@ -70,12 +81,68 @@ public class level_Transition_Win : MonoBehaviour
         //making the cursor visible
         FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
         //finding the sudio manager, and stopping the menu music
+        FindObjectOfType<audio_Manager>().Play("Level 2 Music");
+        //finding the audio manager, and stopping the level music
     }
 
-    public void RetryLevel()
+    public void Level3()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+        FindObjectOfType<audio_Manager>().Play("Level 3 Music");
+        //finding the audio manager, and stopping the level music
+    }
+
+    public void Level4()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+        FindObjectOfType<audio_Manager>().Play("Level 4 Music");
+        //finding the audio manager, and stopping the level music
+    }
+
+    public void Level5()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+        FindObjectOfType<audio_Manager>().Play("Level 5 Music");
+        //finding the audio manager, and stopping the level music
+    }
+
+    public void RetryLevel1()
     {
         Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(scene.name);
         //chage this when needed
         Time.timeScale = 1f;
         player.GetComponent<player_Look>().enabled = true;
@@ -86,7 +153,87 @@ public class level_Transition_Win : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursor visible
-        FindObjectOfType<audio_Manager>().Play("Level Music");
+        FindObjectOfType<audio_Manager>().Play("Level 1 Music");
+        //finding the audio manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+    }
+
+    public void RetryLevel2()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        //chage this when needed
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().Play("Level 2 Music");
+        //finding the audio manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+    }
+
+    public void RetryLevel3()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        //chage this when needed
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().Play("Level 3 Music");
+        //finding the audio manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+    }
+
+    public void RetryLevel4()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        //chage this when needed
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().Play("Level 4 Music");
+        //finding the audio manager, and playing the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        //finding the sudio manager, and stopping the menu music
+    }
+
+    public void RetryLevel5()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+        //chage this when needed
+        Time.timeScale = 1f;
+        player.GetComponent<player_Look>().enabled = true;
+        player.GetComponent<player_Movement>().enabled = true;
+        gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //turning all these player components one
+        Cursor.lockState = CursorLockMode.Locked;
+        //locking cursur to the middle of the screen
+        Cursor.visible = false;
+        //making the cursor visible
+        FindObjectOfType<audio_Manager>().Play("Level 5 Music");
         //finding the audio manager, and playing the level music
         FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
         //finding the sudio manager, and stopping the menu music
