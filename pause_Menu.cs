@@ -51,6 +51,7 @@ public class pause_Menu : MonoBehaviour
         Cursor.visible = false;
         //making the cursur invisible
         FindObjectOfType<audio_Manager>().TurnUp();
+        //player.SetActive(true);
     }
 
     public void Pause()
@@ -67,23 +68,28 @@ public class pause_Menu : MonoBehaviour
         //unlocking cursur from the middle of the screen
         Cursor.visible = true;
         //making the cursur visible
-        FindObjectOfType<audio_Manager>().TurnDown();
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-        Debug.Log("quitting");
+        FindObjectOfType<audio_Manager>().StopPlaying("Boost Sound");
+        //player.SetActive(false);
     }
 
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
-        FindObjectOfType<audio_Manager>().StopPlaying("Level Music");
+        FindObjectOfType<audio_Manager>().StopPlaying("Tutorial Music");
         //finding the audio manager, and stopping the level music
         FindObjectOfType<audio_Manager>().Play("Menu Music");
         //finding the auido manager, and playing the menu music
+        FindObjectOfType<audio_Manager>().StopPlaying("Level 1 Music");
+        //finding the audio manager, and stopping the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Level 2 Music");
+        //finding the audio manager, and stopping the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Level 3 Music");
+        //finding the audio manager, and stopping the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Level 4 Music");
+        //finding the audio manager, and stopping the level music
+        FindObjectOfType<audio_Manager>().StopPlaying("Level 5 Music");
+        //finding the audio manager, and stopping the level music
     }
 
     public void Retry()
@@ -100,5 +106,6 @@ public class pause_Menu : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
+        //player.SetActive(true);
     }
 }
