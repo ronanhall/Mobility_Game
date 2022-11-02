@@ -5,12 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class portal_End_Point : MonoBehaviour
 {
+    public GameObject boostController;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             //loading the next scene in the queue
+            FindObjectOfType<audio_Manager>().StopPlaying("Tutorial Music");
+            //finding the audio manager, and stopping the level music
+            boostController.gameObject.SetActive(false);
         }
     }
 }
