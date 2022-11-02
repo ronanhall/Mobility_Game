@@ -155,6 +155,7 @@ public class player_Movement : MonoBehaviour
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
             //reloading the current scene
+            FindObjectOfType<audio_Manager>().StopPlaying("Enemy Rotation");
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
