@@ -8,8 +8,17 @@ public class audio_Manager : MonoBehaviour
     //an array of the sound script
     public float soundEffectsVolume;
     //the volume of the audio clips
-    public static audio_Manager instance;
+    private static audio_Manager instance;
     //making the object an instance
+
+    public static audio_Manager instance
+    {
+        get
+        {
+            return _instance;
+        }
+        //returning an _instance
+    }
 
     // Start is called before the first frame update
     void Awake()
