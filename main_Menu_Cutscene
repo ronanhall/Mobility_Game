@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class main_Menu_Cutscene : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        SceneManager.LoadSceneAsync(0);
+        FindObjectOfType<music_Manager>().Play("Menu Music");
+        //when the object gets enabled, it is loading scene 0 and playing the menu music
+    }
+}
