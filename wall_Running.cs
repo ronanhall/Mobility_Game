@@ -66,6 +66,7 @@ public class wall_Running : MonoBehaviour
     //private object wallHitCollider;
 
     public float wallStickiness = 20f;
+    //the stickiness of the player on the wall
 
     public float tilt { get; private set; }
     
@@ -73,6 +74,7 @@ public class wall_Running : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); 
+        //getting the players rigidbody
     }
 
     bool CanWallRun()
@@ -109,23 +111,6 @@ public class wall_Running : MonoBehaviour
 
         if (CanWallRun())
         {
-            /*if (wallLeft)
-            {
-                StartWallRun();
-                Debug.Log("wall is to the left");
-                //Debug.Log("wallrunning left");
-            }
-            else if (wallRight)
-            {
-                StartWallRun();
-                Debug.Log("wall is to the right");
-                //Debug.Log("wallrunning right");
-            }
-            else
-            {
-                StopWallRun();
-
-            }*/
             if (wallNextToPlayer)
             {
                 StartWallRun();
@@ -148,16 +133,15 @@ public class wall_Running : MonoBehaviour
     void StartWallRun()
     {
         inAir = true;
-            
+        //setting the inAir bool to true    
         rb.useGravity = false;
         //setting the players gravity to 0
 
         rb.AddForce(Vector3.down * wallRunGravity, ForceMode.Force);
+        //adding force to the rigidbody down by the wallRunGravity
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, wallRunFOV, wallRunFOVTime * Time.deltaTime);
         //changing the camera's field of view when on a wall
-
-       
 
         if (wallLeft)
         {
@@ -180,7 +164,7 @@ public class wall_Running : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Acceleration);
                 Debug.Log("walljump left");
-                    //
+                //adding force to the rigidbody to the players left by the wallJumpForce, making the player jump left
 
             }
             else if (wallRight)
@@ -189,7 +173,7 @@ public class wall_Running : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
                 Debug.Log("walljump right");
-                    //
+                //adding force to the rigidbody to the players right by the wallJumpForce, making the player jump right
 
             }
             else if (wallBack)
@@ -198,21 +182,19 @@ public class wall_Running : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.AddForce(wallRunJumpDirection * wallJumpForce * 100, ForceMode.Force);
                 Debug.Log("walljump forward");
+                //adding force to the rigidbody to the players back by the wallJumpForce, making the player jump forward
             }
-        }
-        
-        //this needs sorting out
-       
+        }     
     }
 
     void StopWallRun()
     {
         inAir = false;
-        
+        //setting the bool to false
         rb.useGravity = true;
-
+        //using gravity
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, wallRunFOVTime * Time.deltaTime);
-
+        //lerping the camera back to it's normal field of view
         tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
         //when the player stops wall running, it turns their gravity on, changes their field of view to normal and not tilting the camera
     }
