@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class game_Manager : MonoBehaviour
 {
     private static game_Manager _instance;
-
+    //creating aninstance
     public float currentLevel;
-
+    //the current level the player is on
     public float sensX = 50f;
-
+    //the default sensitivity of the camera on the x axis
     public float sensY = 50f;
+    //the default sensitivity of the camera on the x axis
 
     public static game_Manager instance
     {
@@ -20,6 +21,7 @@ public class game_Manager : MonoBehaviour
         {
             return _instance;
         }
+        //returning a _instance
     }
 
     void Awake()
@@ -33,7 +35,6 @@ public class game_Manager : MonoBehaviour
         {
             if (_instance != this)
                 Destroy(gameObject);
-
         }
     }
     //the code above is making sure whatever gameobject this script is attatched to isn't destroyed when the scene loads
@@ -51,7 +52,6 @@ public class game_Manager : MonoBehaviour
     public float GetCurrentLevel()
     {
         return currentLevel;
+        //returns the build index number of the current scene
     }
-
-   
 }
