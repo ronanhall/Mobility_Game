@@ -27,10 +27,9 @@ public class player_Movement : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce = 5f;
+    //the jump force
     public float bounceForce = 10f;
-    //[SerializeField] private Animator bounce_Pad_Animation;
-    //[SerializeField] private string springUp = "Spring Up";
-
+    //the bounce force
     float horizontalMovement; 
     //horizontal movement of the player
     float verticalMovement; 
@@ -69,18 +68,15 @@ public class player_Movement : MonoBehaviour
 
     [Header("Effects")]
     public GameObject speedLines;
+    //reference to the speed lines
     public bool speedLinesActive;
-
+    //bool to check if the speedlines are active
     private static player_Movement _instance;
-
+    //setting the script to an instance
     public speed_Boost speedBoost;
     //reference to the speed_boost script
-
     public GameObject hurtUI;
     //reference to the hurtUI
-
-    
-
     public GameObject boostController;
     //reference to the boostController GameObject
 
@@ -90,18 +86,16 @@ public class player_Movement : MonoBehaviour
         //getting the rigidbody
         rb.freezeRotation = true; 
         //freezing the rotation of the rigidbody
-
         startYScale = transform.localScale.y;
         //setting the startYScale to the players y scale
-
         initialMoveSpeed = moveSpeed;
         //setting the initial move speed to the moveSpeed variable
-
         currentBoost = boostTotal;
         //setting the players speed boost to the boostTotal
         speedBoost.SetMaxSpeedBoost(boostTotal);
         //setting the sliders max value to the boostTotal 
         slowedDown = false;
+        //setting the slowedDown bool to false
     }
 
     private bool OnSlope()
@@ -134,6 +128,7 @@ public class player_Movement : MonoBehaviour
         {
             Jump();
         }
+        //jumping if the space key is pressed and the player is on the ground
 
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
         //projecting the players movement based on the angle of the ground object
@@ -156,6 +151,7 @@ public class player_Movement : MonoBehaviour
             SceneManager.LoadScene(scene.name);
             //reloading the current scene
             FindObjectOfType<audio_Manager>().StopPlaying("Enemy Rotation");
+            //stops playing the enemy rotation sound effect
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -190,8 +186,6 @@ public class player_Movement : MonoBehaviour
                 //setting the usingBoost bool to false
                 boostController.gameObject.SetActive(false);
                 //setting the boostController to be not active
-                //FindObjectOfType<audio_Manager>().Play("Boost Close");
-                //playing the "Boost Close" sound
             }
 
         }
@@ -214,6 +208,7 @@ public class player_Movement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        //adding force to the y axis by the jumpForce 
         FindObjectOfType<audio_Manager>().Play("Player Jump");
         //playing the player jump sound effect
     }
@@ -223,7 +218,7 @@ public class player_Movement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); 
         //resetting the y velocity to 0
         rb.AddForce(transform.up * bounceForce, ForceMode.Impulse);
-        //bounce_Pad_Animation.Play(springUp, 0, 0.0f);
+        //adding force to the y axis by the bounceForce
         FindObjectOfType<audio_Manager>().Play("Bounce Pad Spring");
         //finding the audio manager, and playing the bounce pad spring sound effect
     }
@@ -279,6 +274,7 @@ public class player_Movement : MonoBehaviour
         speedBoost.SetSpeedBoost(currentBoost);
         //setting the speed boost sliders current value to the currentBoost value
         usingBoost = true;
+        //setting the bool to true
         boostController.gameObject.SetActive(true);
         //setting the boostController to be active
     }
