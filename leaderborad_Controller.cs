@@ -41,9 +41,12 @@ public class leaderborad_Controller : MonoBehaviour
                 Debug.Log("Failed");
             }
         });
+        //logging the player into the session so they are able to submit and view scores
 
         playerScore.text = (Mathf.FloorToInt(timer.scoreAmount)).ToString();
         //turning the playerScore text into the scoreAmount the player just attained
+        memberID.characterLimit = 8;
+        //setting the limit to players name to 8 characters
     }
 
     public void SubmitScore()
@@ -82,7 +85,7 @@ public class leaderborad_Controller : MonoBehaviour
                     {
                         Entries[i].text = (i + 1).ToString() + ". none";
                     }
-                }
+                } //if there is less than 5 scores submitted, it will read "rank. none"
 
             }
             else
@@ -92,96 +95,4 @@ public class leaderborad_Controller : MonoBehaviour
             }
         });
     }
-
-    /*IEnumerator SetUpRoutine()
-    {
-        yield return PlayerLogin();
-        yield return GetTopHighScores();
-    }
-
-    IEnumerator PlayerLogin()
-    {
-        bool done = false;
-        //checking if the call to the server is complete
-        LootLockerSDKManager.StartGuestSession((response) =>
-        {
-            if (response.success)
-            {
-                PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
-                //getting the players name from their PlayerPref
-                Debug.Log("Success");
-                done = true;
-            }
-            else
-            {
-                Debug.Log("Failed");
-                done = true;
-            }
-        });
-        //this is authenticating if a player is playing the game, and tracking whether it was successful or not
-        yield return new WaitWhile(() => done == false); 
-    }
-
-    //things to do: make the leaderboard save a score when hitting the end of the level
-    //have the players best time be the score, convert it into a float
-
-    public IEnumerator SubmitScore(int scoreToUpload)
-    {
-        bool done = false;
-        string playerID = PlayerPrefs.GetString("PlayerID");
-        LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID, (respone) =>
-        {
-            if (respone.success)
-            {
-                Debug.Log("success");
-                done = true;
-            }
-            else
-            {
-                Debug.Log("failed");
-                done = true;
-            }
-        });
-        yield return new WaitWhile(() => done == false);
-    }
-
-    public IEnumerator GetTopHighScores()
-    {
-        bool done = false;
-        LootLockerSDKManager.GetScoreListMain(leaderboardID, 5, 0, (response) =>
-        {
-            if (response.success)
-            {
-                string tempPlayerNames = "Names\n";
-                string tempPlayerScores = "Scores\n";
-
-                LootLockerLeaderboardMember[] members = response.items;
-
-                for (int i = 0; i < members.Length; i++)
-                {
-                    tempPlayerNames += members[i].rank + ". ";
-                    if (members[i].player.name != " ")
-                    {
-                        tempPlayerNames += members[i].player.name;
-                    }
-                    else
-                    {
-                        tempPlayerNames += members[i].player.id;
-                    }
-                    tempPlayerScores += members[i].score + "\n";
-                    tempPlayerNames += "\n";
-                }
-                done = true;
-                playerNames.text = tempPlayerNames;
-                playerScores.text = tempPlayerScores;
-            }
-            else
-            {
-                Debug.Log("failed");
-                done = true;
-            }
-        });
-        yield return new WaitWhile(() => done == false);
-    }*/
-
 }
