@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class speed_Boost : MonoBehaviour
 {
     public Slider slider;
+    //reference to the slider
 
     public void SetSpeedBoost(float speedBoost)
     {
