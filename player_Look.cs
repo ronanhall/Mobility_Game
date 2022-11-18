@@ -8,19 +8,16 @@ public class player_Look : MonoBehaviour
     //sensitivity on the x axis
     [SerializeField] private float sensY; 
     //sensititvity on the y axis
-
     [SerializeField] Transform cam; 
     //reference to the camera
     [SerializeField] Transform orientation;
     //keeps track of the orientation of the player
-
     float mouseX; 
     //mouse input on the x axis
     float mouseY; 
     //mouse input on the y axis
-
     float multiplier = 0.05f;
-
+    //sensitivity muliplier
     float xRotation;
     float yRotation;
 
@@ -28,7 +25,6 @@ public class player_Look : MonoBehaviour
 
     private void Start()
     {
-
         Cursor.lockState = CursorLockMode.Locked; 
         //locking cursur to the middle of the screen
         Cursor.visible = false; 
@@ -37,15 +33,12 @@ public class player_Look : MonoBehaviour
 
     private void Update()
     {
-        
         MyInputs();
 
         cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, wallRun.tilt); 
         //setting camera rotation to the rotation along the x axis
         orientation.transform.rotation = Quaternion.Euler(0, yRotation, 0); 
         //rotating the player along the y axis
-
-
     }
 
     void MyInputs()
