@@ -8,12 +8,13 @@ public class speed_Tracker : MonoBehaviour
 {
     public Rigidbody target;
     //reference to the players rigidbody
-    
+    public float maxSpeed;
+    //the players max speed  
     public TextMeshProUGUI speedCounter;
     //the text that counts the speed of the player
-
     private float speed = 0.0f;
     //the speed of the player
+
 
     void Update()
     {
@@ -22,7 +23,7 @@ public class speed_Tracker : MonoBehaviour
 
         if (speedCounter != null)
         {
-            speedCounter.text = ((int)speed) + "KM/H";
+            speedCounter.text = ((int)speed) + " KM/H";
         }
         //making the spped counter equal the speed of the player plus "KM/H"
     }
