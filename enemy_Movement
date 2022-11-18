@@ -9,23 +9,20 @@ public class enemy_Movement : MonoBehaviour
     //the enemy's moveSpeed
     public GameObject startingPoint;
     //the point at which the enemy will start moving at
-    //public Transform[] points;
-    //an array that dictates how many points the enemey will move to
-    //private int i;
-    //a private int called i
-
     public Transform point1;
-
+    //the transform for point 1
     public Transform point2;
-
-    public bool reachedEnd;
-
+    //the transform for point 2
+    public bool reachedEnd1;
+    //bool to check if the enemy has reached point 1
+    public bool reachedEnd2;
+    //bool to check if the enemy has reached point 2
     public Transform player;
-
+    //the transform of the player
     Rigidbody rb;
-    
+    //reference to the turrets rigidbody
     public enemy_Turret turret;
-
+    //reference to the enemy turret script
     
 
     // Start is called before the first frame update
@@ -33,7 +30,9 @@ public class enemy_Movement : MonoBehaviour
     {
         transform.position = startingPoint.transform.position;
         //setting the enemy's start position to the first position in the position array
-        reachedEnd = false;
+        reachedEnd1 = false;
+        reachedEnd2 = false;
+        //setting the two bools to false
     }
 
     // Update is called once per frame
@@ -44,73 +43,71 @@ public class enemy_Movement : MonoBehaviour
         {
             Move();
             MoveWithPlayer();
+            //if the player is in range, the turret will move with the player whilst also updating if they have reached either of the end points
         }
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, startingPoint.transform.position, moveSpeed * Time.deltaTime);
+            //if the player is not in range, the turret will  move back to its starting point
         }
-     
-        
     }
 
     public void Move()
     {
-        /*if (Vector3.Distance(transform.position, points[i].position) < 0.02f)
-        {
-            i++;
-            //if the enemy's position is close to the next position, the position array will increase by 1
-            reachedEnd = true;
-            Debug.Log("reached end");
-            if (i == points.Length)
-            {
-                i = 0;
-                //if the int of i equals the amount of positions in the position array, it will be set back to 0
-            }
-        }
-
-        transform.position = Vector3.MoveTowards(transform.position, points[i].position, moveSpeed * Time.deltaTime);
-        //making the enemy move towards the next position in the position array from it's current posotion by it's moveSpeed
-        */
-        
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y, player.position.z), moveSpeed * Time.deltaTime);
-
-        
+        //moving towards the players position along the z axis
     }
 
     public void MoveWithPlayer()
     {
+        Point1();
+        Point2();
+        //keeping track of if the turret has reahced the end points
+    }
 
-        /*if (Vector3.Distance(transform.position, points[i].position) < 0.01f)
+    public void Point1()
+    {
+        if (Vector3.Distance(transform.position, point1.transform.position) < 0.2)
         {
-            Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, 0f);
-            transform.position = newPosition;
-
-        }
-        else
-        {
-            Vector3 moveTowardsPlayer = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y, player.position.z), moveSpeed * Time.deltaTime);
-            transform.position = moveTowardsPlayer;
-        }*/
-
-        if (Vector3.Distance(transform.position, point1.transform.position) < 0.1)
-        {
-            reachedEnd = true;
+            reachedEnd1 = true;
+            //setting the bool to true
             transform.position = new Vector3(transform.position.x, transform.position.y, point1.transform.position.z);
+            //if the turret has reached end point 1, its transform will be set to that position
         }
         else
         {
-            reachedEnd = false;
-
-        }
-
-        if (Vector3.Distance(transform.position, point2.transform.position) < 0.1)
-        {
-            reachedEnd = true;
-            transform.position = new Vector3(transform.position.x, transform.position.y, point2.transform.position.z);
-        }
-        else
-        {
-            reachedEnd = false;
+            reachedEnd1 = false;
+            //setting the bool to false
         }
     }
+
+    public void Point2()
+    {
+        if (Vector3.Distance(transform.position, point2.transform.position) < 0.2)
+        {
+            reachedEnd2 = true;
+            //setting the bool to true
+            transform.position = new Vector3(transform.position.x, transform.position.y, point2.transform.position.z);
+            //if the turret has reached end point 2, its transform will be set to that position
+        }
+        else
+        {
+            reachedEnd2 = false;
+            //setting the bool to false
+        }
+    }
+
+    public void MoveBack()
+    {
+        StartCoroutine(MoveBackToStart());
+    }
+
+    IEnumerator MoveBackToStart()
+    {
+        yield return new WaitForSeconds(1);
+        reachedEnd1 = false;
+        reachedEnd2 = false;
+        transform.position = Vector3.MoveTowards(transform.position, startingPoint.transform.position, moveSpeed * Time.deltaTime);
+    }
+    //I don't think this is referenced anywhere, but just in case it is I'm leaving it in
 }
