@@ -6,15 +6,13 @@ public class object_Pick_Up : MonoBehaviour
 {
     public bool gunPickedUp;
     //bool to track if the gun has been picked up
-
     public bool inRange;
     //bool to check if the player is in range to be able to pick up the gun
-
     public GameObject bouncePadGun;
     //reference to the bounce pad gun on the pedestal
-
     public GameObject playerBouncePadGun;
     //reference to the bounce pad gun on the player
+   
     
     // Start is called before the first frame update
     void Start()
@@ -39,7 +37,6 @@ public class object_Pick_Up : MonoBehaviour
             FindObjectOfType<audio_Manager>().Play("Pick Up Sound");
             //finding the auido manager, and playing the pick up sound effect
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
