@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class player_Boost : MonoBehaviour
 {
-    
     public AudioSource audioSource;
     //the AudioSouurce attatched to the GameObject
-
-
     public GameObject boostController;
     //reference to the boostController GameObject
 
@@ -17,6 +14,12 @@ public class player_Boost : MonoBehaviour
     {
         boostController.gameObject.SetActive(false);
         //setting the boostController to be not activated when starting
+    }
+
+    private void Update()
+    {
+        audioSource.volume = audio_Manager.instance.soundEffectsVolume - 0.15f;
+        //setting the audio sources volume to be the sound effect volume subtract an additional 0.15
     }
 
     private void OnEnable()
