@@ -6,7 +6,8 @@ public class audio_Manager : MonoBehaviour
 {
     public sound[] sounds;
     //an array of the sound script
-
+    public float soundEffectsVolume;
+    //the volume of the audio clips
     public static audio_Manager instance;
     //making the object an instance
 
@@ -14,73 +15,56 @@ public class audio_Manager : MonoBehaviour
     void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
         {
-            Destroy(gameObject);
-            return;
+            if (_instance != this)
+                Destroy(gameObject);
         }
-
-
-        DontDestroyOnLoad(gameObject);
-
+        //making the object an instance, see lines 39-41 on game_Manager script
+        
         foreach (sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
-
-            s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
-        //controls for the audio source, the name of the source, the volume and pitch, and whether it loops
+        //for every audio clip in the sound array, it adds an audio source, sets that source to be an auido clip so you can name it, and
+        //controls the pitch of the sound and whether it loops
     }
 
-    private void Start()
+    private void Update()
     {
-        Play("Menu Music");
-        //playing the menu music
+        foreach (sound s in sounds)
+        {
+            s.source.volume = soundEffectsVolume;   
+        }
+        //setting the volume of the sounds to be the soundEffectsVolume, allowing it to be changed
     }
 
     public void Play(string name)
     {
         sound s = Array.Find(sounds, sound => sound.name == name);
-        //
+        //finding the sounds exact name
         if (s == null)
             return;
         //if the sound isn't there, the game isn't trying to play it
         s.source.Play();
-        //playing the sound
+        //if it is, it plays the sound
     }
 
     public void StopPlaying(string name)
     {
         sound s = Array.Find(sounds, sound => sound.name == name);
-        //
+        //finding the osunds exact name
         if (s == null)
             return;
         //if the sound isn't there, the game isn't trying to play it
         s.source.Stop();
-        //stopping the sound
-    }
-
-    public void TurnDown()
-    {
-        sound s = Array.Find(sounds, sound => sound.name == name);
-        //
-        if (s == null)
-            return;
-        //if the sound isn't there, the game isn't trying to play it
-        s.volume = 0;
-    }
-
-    public void TurnUp()
-    {
-        sound s = Array.Find(sounds, sound => sound.name == name);
-        //
-        if (s == null)
-            return;
-        //if the sound isn't there, the game isn't trying to play it
-        s.source.volume = s.volume;
+        //if it is, it stops the sound
     }
 }
