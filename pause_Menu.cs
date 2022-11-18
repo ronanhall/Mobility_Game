@@ -8,15 +8,12 @@ public class pause_Menu : MonoBehaviour
 
     public static bool gameIsPaused = false; 
     //this variable keeps track of whether or not the game is paused
-
     public GameObject pauseMenuUi; 
     //this is a public reference for our pause menu
-
     public GameObject player;
     //a public reference for the player
-
     public GameObject gun;
-
+    //reference to the boounce pad gun
 
     // Update is called once per frame
     void Update()
@@ -34,6 +31,7 @@ public class pause_Menu : MonoBehaviour
 
             }
         }
+        //if the player presses the escape key and the game is paused, it will resume. Otherwise it will pause the game
     }
 
     public void Resume()
@@ -46,12 +44,11 @@ public class pause_Menu : MonoBehaviour
         player.GetComponent<player_Look>().enabled = true;
         player.GetComponent<player_Movement>().enabled = true;
         gun.GetComponent<bounce_Pad_Gun>().enabled = true;
+        //enabling these components
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().TurnUp();
-        //player.SetActive(true);
     }
 
     public void Pause()
@@ -64,31 +61,32 @@ public class pause_Menu : MonoBehaviour
         player.GetComponent<player_Look>().enabled = false;
         player.GetComponent<player_Movement>().enabled = false;
         gun.GetComponent<bounce_Pad_Gun>().enabled = false;
+        //disabling these components
         Cursor.lockState = CursorLockMode.None;
         //unlocking cursur from the middle of the screen
         Cursor.visible = true;
         //making the cursur visible
         FindObjectOfType<audio_Manager>().StopPlaying("Boost Sound");
-        //player.SetActive(false);
+        //stop playing the boost sound
     }
 
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
-        FindObjectOfType<audio_Manager>().StopPlaying("Tutorial Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Tutorial Music");
         //finding the audio manager, and stopping the level music
-        FindObjectOfType<audio_Manager>().Play("Menu Music");
+        FindObjectOfType<music_Manager>().Play("Menu Music");
         //finding the auido manager, and playing the menu music
-        FindObjectOfType<audio_Manager>().StopPlaying("Level 1 Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Level 1 Music");
         //finding the audio manager, and stopping the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Level 2 Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Level 2 Music");
         //finding the audio manager, and stopping the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Level 3 Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Level 3 Music");
         //finding the audio manager, and stopping the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Level 4 Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Level 4 Music");
         //finding the audio manager, and stopping the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Level 5 Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Level 5 Music");
         //finding the audio manager, and stopping the level music
     }
 
@@ -106,6 +104,5 @@ public class pause_Menu : MonoBehaviour
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        //player.SetActive(true);
     }
 }
