@@ -10,26 +10,19 @@ public class level_1_Leaderboard : MonoBehaviour
 {
     public TMP_InputField memberID;
     //input fields for the players name and score
-
     public TextMeshProUGUI playerScore;
     //text that will display the players score
-
     int leaderboardID = 7200;
     //the ID of the leaderboard online
-
-    int maxScores = 5;
+    int maxScores = 10;
     //the maximum amount of scores the leaderboard will display
-
     public TextMeshProUGUI[] Entries;
     //the text objects that will become the leaderboard
-
     public timer timer;
     //private float scoreAmount;
 
     private void Start()
     {
-        // StartCoroutine(SetUpRoutine());
-
         LootLockerSDKManager.StartGuestSession((response) =>
         {
             if (response.success)
@@ -46,6 +39,7 @@ public class level_1_Leaderboard : MonoBehaviour
         playerScore.text = (Mathf.FloorToInt(timer.scoreAmount)).ToString();
         //turning the playerScore text into the scoreAmount the player just attained
         memberID.characterLimit = 8;
+        //setting the limit to players name to 8 characters
     }
 
     public void SubmitScore()
@@ -84,7 +78,7 @@ public class level_1_Leaderboard : MonoBehaviour
                     {
                         Entries[i].text = (i + 1).ToString() + ". none";
                     }
-                } //if there is less than 5 scores submitted, it will read "rank. none"
+                } //if there is less than 10 scores submitted, it will read "rank. none"
 
             }
             else
