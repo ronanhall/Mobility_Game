@@ -21,7 +21,7 @@ public class hazard_Death : MonoBehaviour
                 FindObjectOfType<audio_Manager>().Play("Player Fail");
                 Die();
                 break;
-         //when the player collides with this object, they will die (restart the scene)
+         //when the player collides with this object, they will die and reload the current scene
         }
     }
 }
