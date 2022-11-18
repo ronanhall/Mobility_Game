@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class timer_Start : MonoBehaviour
 {
-
     public timer timer;
+    //referenc to the timer script
 
     public void OnTriggerEnter(Collider other)
     {
         timer.StartTimer();
+        //starting the timer when the player enters the trigger
     }
 }
