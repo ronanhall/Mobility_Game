@@ -5,7 +5,7 @@ using UnityEngine;
 public class audio_Manager : MonoBehaviour
 {
     public sound[] sounds;
-    //an array of the sound script
+    //an array of the sounds
     public float soundEffectsVolume;
     //the volume of the audio clips
     private static audio_Manager instance;
