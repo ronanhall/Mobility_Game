@@ -8,33 +8,23 @@ public class audio_Manager : MonoBehaviour
     //an array of the sounds
     public float soundEffectsVolume;
     //the volume of the audio clips
-    private static audio_Manager instance;
+    public static audio_Manager instance;
     //making the object an instance
 
-    public static audio_Manager instance
-    {
-        get
-        {
-            return _instance;
-        }
-        //returning an _instance
-    }
-
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else
         {
-            if (_instance != this)
-                Destroy(gameObject);
+            Destroy(gameObject);
+            return;
         }
+
+
+        DontDestroyOnLoad(gameObject);
         //making the object an instance, see lines 39-41 on game_Manager script
-        
+
         foreach (sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
