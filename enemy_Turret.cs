@@ -5,7 +5,7 @@ using UnityEngine;
 public class enemy_Turret : MonoBehaviour
 {
     private Transform target;
-    //the target if the turret
+    //the target of the turret
 
     public GameObject enemyBullet; 
     //the enemy bullet prefab
@@ -19,19 +19,16 @@ public class enemy_Turret : MonoBehaviour
     //the time the enemy will wait to fire again
     public Transform head;
     //reference to the head of the turret
-    //public Transform playerHead;
-    //reference to the head of the player
-
     public string playerTag = "Player Head";
     //the name of the tag of the object the turret will target
     public float lookSpeed;
     //the speed at which the turret locks onto the player 
+    public bool playerEnteredRange = false;
+    //bool to check if the player has entered the turrets range
 
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.FindGameObjectWithTag("Player").transform;
-        //the code above is the enemy looking for the player
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
         //calling the UpdateTarget method 2 times every second
     }
@@ -39,19 +36,6 @@ public class enemy_Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
-        //getting the distance from the players positon and the turrets position
-        if (distanceFromPlayer <= shootingRange && nextFireTime < Time.time)
-        {
-            FindObjectOfType<audio_Manager>().Play("Enemy Alert");
-            //finding the audio manager, and playing the enemy alert sound effect
-            Instantiate(enemyBullet, enemyFirePoint.transform.position, Quaternion.identity);
-            //the code above is spawning a bullet at the enemy's firepoint position and making sure it doesn't rotate
-            nextFireTime = fireRate + Time.time;
-        }
-        //this void fires a bullet only when the player is within the shootingRange and the nextFireTime is less
-        //than the time that has passed*/
-
         if (target == null)
         {
             return;
@@ -65,7 +49,7 @@ public class enemy_Turret : MonoBehaviour
         Vector3 rotation = Quaternion.Lerp(head.rotation, lookRotation, Time.deltaTime * lookSpeed).eulerAngles;
         //smoothing out the rotation of the turret once it gains a new target
         head.rotation = Quaternion.Euler(rotation.x, rotation.y, 0f);
-        //setting the rotation of the head to the x and y rotation calculated, but not the z rotation
+        //setting the rotation of the head to the x and y rotation calculated, but not the z rotation    
     }
 
     private void OnDrawGizmosSelected()
@@ -94,6 +78,7 @@ public class enemy_Turret : MonoBehaviour
                 //setting the shortestDistance to this distance
                 nearestPlayer = Player;
                 //setting the nearestPlayer to this player
+               
             }
         }
 
@@ -103,12 +88,15 @@ public class enemy_Turret : MonoBehaviour
             //setting the target to the nearestPlayer's transform
             Shoot();
             //shooting
-            FindObjectOfType<audio_Manager>().Play("Enemy Reaction");
+            playerEnteredRange = true;
+            //setting the bool to true
         }
         else
         {
             target = null;
-            //setting the target back to nothing
+            //setting the target back to nothing       
+            playerEnteredRange = false;
+            //setting the bool to false
         }
     }
 
@@ -116,8 +104,6 @@ public class enemy_Turret : MonoBehaviour
     {
         if (nextFireTime < Time.time)
         {
-            FindObjectOfType<audio_Manager>().Play("Enemy Alert");
-            //finding the audio manager, and playing the enemy alert sound effect
             Instantiate(enemyBullet, enemyFirePoint.transform.position, Quaternion.identity);
             //the code above is spawning a bullet at the enemy's firepoint position and making sure it doesn't rotate
             nextFireTime = fireRate + Time.time;
@@ -125,5 +111,24 @@ public class enemy_Turret : MonoBehaviour
             FindObjectOfType<audio_Manager>().Play("Enemy Shoot");
             //finding the audio manager and playing the enemy shoot sound effect
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            FindObjectOfType<audio_Manager>().Play("Enemy Reaction");
+            FindObjectOfType<audio_Manager>().Play("Enemy Rotation");
+        }
+        //when the player is enetering the trigger, the audio manager is playing the enemy sounds 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            FindObjectOfType<audio_Manager>().StopPlaying("Enemy Rotation");
+        }
+        //when the player exits the trigger, the audio manager stops playing the rotation sound
     }
 }
