@@ -29,21 +29,25 @@ public class level_Loader : MonoBehaviour
     public void LoadLevel2Void()
     {
         StartCoroutine(LoadLevel2());
+        //calling the coroutine
     }
 
     public void LoadLevel3Void()
     {
         StartCoroutine(LoadLevel3());
+        //calling the coroutine
     }
 
     public void LoadLevel4Void()
     {
         StartCoroutine(LoadLevel4());
+        //calling the coroutine
     }
 
     public void LoadLevel5Void()
     {
         StartCoroutine(LoadLevel5());
+        //calling the coroutine
     }
 
     IEnumerator LoadTutorial()
@@ -56,7 +60,9 @@ public class level_Loader : MonoBehaviour
         Cursor.visible = false;
         //making the cursur invisible
         
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        FindObjectOfType<music_Manager>().Play("Tutorial Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
@@ -70,25 +76,22 @@ public class level_Loader : MonoBehaviour
             progressText.text = progress * 100f + "%";
             yield return null;
             //waits one frame after every message
-            FindObjectOfType<audio_Manager>().Play("Tutorial Music");
-            //finding the auido manager, and playing the level music
-
         }
     }
 
     IEnumerator LoadLevel1()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(2);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(3);
         //this loads the next scene asynchronously in the background
         //the operation allows the storing and gathring of information about the loading of the scene
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().Play("Level 1 Music");
+        FindObjectOfType<music_Manager>().Play("Level 1 Music");
         //finding the auido manager, and playing the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
-        //finding the audio manager, and stopping the menu music
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
@@ -108,17 +111,17 @@ public class level_Loader : MonoBehaviour
 
     IEnumerator LoadLevel2()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(3);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(4);
         //this loads the next scene asynchronously in the background
         //the operation allows the storing and gathring of information about the loading of the scene
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().Play("Level 2 Music");
+        FindObjectOfType<music_Manager>().Play("Level 2 Music");
         //finding the auido manager, and playing the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
-        //finding the audio manager, and stopping the menu music
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
@@ -138,17 +141,17 @@ public class level_Loader : MonoBehaviour
 
     IEnumerator LoadLevel3()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(4);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(5);
         //this loads the next scene asynchronously in the background
         //the operation allows the storing and gathring of information about the loading of the scene
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().Play("Level 3 Music");
+        FindObjectOfType<music_Manager>().Play("Level 3 Music");
         //finding the auido manager, and playing the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
-        //finding the audio manager, and stopping the menu music
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
@@ -168,17 +171,17 @@ public class level_Loader : MonoBehaviour
 
     IEnumerator LoadLevel4()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(5);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(6);
         //this loads the next scene asynchronously in the background
         //the operation allows the storing and gathring of information about the loading of the scene
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().Play("Level 4 Music");
+        FindObjectOfType<music_Manager>().Play("Level 4 Music");
         //finding the auido manager, and playing the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
-        //finding the audio manager, and stopping the menu music
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
@@ -198,17 +201,17 @@ public class level_Loader : MonoBehaviour
 
     IEnumerator LoadLevel5()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(6);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(7);
         //this loads the next scene asynchronously in the background
         //the operation allows the storing and gathring of information about the loading of the scene
         Cursor.lockState = CursorLockMode.Locked;
         //locking cursur to the middle of the screen
         Cursor.visible = false;
         //making the cursur invisible
-        FindObjectOfType<audio_Manager>().Play("Level 5 Music");
+        FindObjectOfType<music_Manager>().Play("Level 5 Music");
         //finding the auido manager, and playing the level music
-        FindObjectOfType<audio_Manager>().StopPlaying("Menu Music");
-        //finding the audio manager, and stopping the menu music
+        FindObjectOfType<music_Manager>().StopPlaying("Menu Music");
+        //finding the music manager, and playing the levels music and stopping the menu music
 
 
         while (!operation.isDone)
