@@ -21,6 +21,8 @@ public class boost_Pickup : MonoBehaviour
             Destroy(gameObject);
             pM.AddBoost(boostAddition);
             //if it is under 100, it will add the boostAddition float to the boost total
+            FindObjectOfType<audio_Manager>().Play("Fuel Pick Up");
+            //playing the boost pickup sound
         }
        
        
