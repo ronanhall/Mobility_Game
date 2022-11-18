@@ -51,8 +51,22 @@ public class player_Movement : MonoBehaviour
     public bool isGrounded; 
     //checking to see if the player is grounded
     float groundDistance = 0.4f;
+    //the distance of the ground check
     [SerializeField] LayerMask groundMask;
+    //the layers that will count as the ground
     public Transform groundCheck;
+    //where the ground check will be cast from
+
+    public bool ceilingAbove;
+    //bool to check if a ceiling is above the player
+    float ceilingDistance = 0.7f;
+    //the distance of the ceiling check
+    [SerializeField] LayerMask ceilingMask;
+    //the layers that will count as a ceiling
+    public Transform ceilingCheck;
+    //where the ceiling check will the cast from
+    public bool crouched;
+    //bool to check if the player is crouched
 
     RaycastHit slopeHit;
 
@@ -100,7 +114,7 @@ public class player_Movement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(groundCheck.position, Vector3.down, out slopeHit, 1.5f)) 
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 1.5f)) 
         //casting a raycast downwards
         {
             if (slopeHit.normal != Vector3.up) 
@@ -120,6 +134,9 @@ public class player_Movement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         //shooting a ray down from the player postion at groundChecks position
+
+        ceilingAbove = Physics.CheckSphere(ceilingCheck.position, ceilingDistance, ceilingMask);
+        //shooting a sphere at the ceilingChecks position with the ceilingDistance's diameter
 
         MyInput();
         ControlDrag();
@@ -160,12 +177,20 @@ public class player_Movement : MonoBehaviour
             //changing the players scale on the y
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             //adding force downwards to the player so that they aren't floating when the scale gets changed
+            crouched = true;
+            //setting the bool to true
         }
 
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
+            crouched = false;
+            //setting the bool to false
+        }
+
+        if (crouched == false && ceilingAbove == false)
+        {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-            //setting the player scale back to the original scale when the player lets go of the crouch button
+            //if the player is crouched and there isn't a ceiling above them, the players scale gets set back to their original
         }
 
         if (Input.GetKey(KeyCode.LeftShift) && slowedDown == false)
@@ -174,7 +199,7 @@ public class player_Movement : MonoBehaviour
             {
                 moveSpeed = speedBoostSpeed;
                 //setting the players move speed to the speed boost move speed
-                UseBoost(0.2f);
+                UseBoost(0.5f);
                 //subtracting 0.2 from the players total amount of speed boost they have when the player is pressing/holding down left shift
                 
             }
