@@ -8,8 +8,12 @@ public class pause_Menu : MonoBehaviour
 
     public static bool gameIsPaused = false; 
     //this variable keeps track of whether or not the game is paused
-    public GameObject pauseMenuUi; 
+    public GameObject pauseMenuUi;
     //this is a public reference for our pause menu
+    public GameObject controlsMenu;
+    //reference to the conrols menu
+    public GameObject optionsMenu;
+    //reference to the options menu
     public GameObject player;
     //a public reference for the player
     public GameObject gun;
@@ -23,6 +27,10 @@ public class pause_Menu : MonoBehaviour
             if (gameIsPaused)
             {
                 Resume();
+                Cursor.lockState = CursorLockMode.Locked;
+                //locking cursur to the middle of the screen
+                Cursor.visible = false;
+                //making the cursur invisible
 
             }
             else
@@ -36,7 +44,9 @@ public class pause_Menu : MonoBehaviour
 
     public void Resume()
     {
-        pauseMenuUi.SetActive(false); 
+        pauseMenuUi.SetActive(false);
+        controlsMenu.SetActive(false);
+        optionsMenu.SetActive(false);
         //disables the gameobject
         gameIsPaused = false;
         Time.timeScale = 1f; 
