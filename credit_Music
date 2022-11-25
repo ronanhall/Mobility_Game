@@ -1,0 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class credit_Music : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        FindObjectOfType<music_Manager>().Play("Menu Music");
+        //when the object gets enabled, it is playing the menu music
+    }
+}
